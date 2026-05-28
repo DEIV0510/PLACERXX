@@ -209,8 +209,7 @@
         { v: 'Sandía', e: '🍉' },
         { v: 'Frutos Rojos', e: '🍓' },
       ],
-      // ---- ESTRECHANTES ----
-      'Es12': [{ v: 'Uva', e: '🍇' }],
+      // ---- ESTRECHANTES ---- (ninguno muestra sabores en la imagen)
     };
 
     function getFlavors(code) {
