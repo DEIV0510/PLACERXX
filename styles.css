@@ -1652,14 +1652,188 @@ body::before {
 }
 
 /* ===========================================================
-   PICKER SECTIONS (5 product configurators)
+   CATALOG MASTER (single section, 5 switchable panels)
    =========================================================== */
-.picker {
+.catalog-master {
   position: relative;
-  padding: 110px 32px;
+  padding: 100px 32px;
   overflow: hidden;
   z-index: 3;
   border-top: 1px solid var(--line);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 31, 143, 0.10), transparent 60%),
+    var(--bg);
+}
+.catalog-master-inner {
+  position: relative;
+  z-index: 2;
+  max-width: var(--maxw);
+  margin: 0 auto;
+}
+.catalog-master-head {
+  text-align: center;
+  margin-bottom: 32px;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.catalog-master-tag {
+  display: inline-block;
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: .3em;
+  color: var(--hot-glow);
+  padding: 5px 12px;
+  border: 1px solid var(--hot);
+  border-radius: 999px;
+  margin-bottom: 18px;
+  font-weight: 700;
+}
+.catalog-master-title {
+  font-family: var(--ff-display);
+  font-weight: 400;
+  font-size: clamp(48px, 7vw, 110px);
+  line-height: 0.95;
+  letter-spacing: -.025em;
+  margin: 0 0 14px;
+  color: var(--ink);
+  text-shadow: 0 0 30px rgba(255, 31, 143, 0.3);
+}
+.catalog-master-title em {
+  font-family: var(--ff-script);
+  font-style: normal;
+  font-weight: 400;
+  color: var(--hot);
+  font-size: 1.15em;
+  text-shadow: 0 0 24px rgba(255, 31, 143, 0.6);
+}
+.catalog-master-sub {
+  font-size: 16px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  margin: 0 0 24px;
+}
+
+/* CATEGORY TABS */
+.cat-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 32px;
+  padding: 12px;
+  background: rgba(8, 0, 10, 0.5);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
+}
+.cat-tab {
+  padding: 12px 22px;
+  font-family: var(--ff-body);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .04em;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  transition: all .25s var(--ease-pop);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.cat-tab:hover {
+  color: var(--ink);
+  background: rgba(255, 31, 143, 0.10);
+}
+.cat-tab.is-active {
+  background: linear-gradient(135deg, var(--hot), var(--hot-deep));
+  color: var(--ink);
+  box-shadow: 0 6px 20px rgba(255, 31, 143, 0.5);
+  transform: scale(1.04);
+}
+
+/* PANELS — only show active */
+.catalog-panels {
+  position: relative;
+}
+.panel {
+  display: none;
+  animation: panelIn .45s var(--ease) forwards;
+}
+.panel.is-active {
+  display: block;
+}
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* PANEL backgrounds (per-category accent ambient) */
+.panel {
+  position: relative;
+  padding: 32px 0 12px;
+}
+.panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 24px;
+}
+.picker-01::before {
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(255, 31, 143, 0.18), transparent 55%),
+    radial-gradient(ellipse at 80% 70%, rgba(122, 58, 255, 0.15), transparent 60%);
+}
+.picker-02::before {
+  background:
+    radial-gradient(ellipse at 80% 30%, rgba(0, 224, 255, 0.14), transparent 55%),
+    radial-gradient(ellipse at 20% 70%, rgba(122, 58, 255, 0.18), transparent 60%);
+}
+.picker-03::before {
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(255, 59, 107, 0.18), transparent 55%),
+    radial-gradient(ellipse at 80% 70%, rgba(214, 17, 79, 0.15), transparent 60%);
+}
+.picker-04::before {
+  background:
+    radial-gradient(ellipse at 80% 30%, rgba(255, 211, 51, 0.14), transparent 55%),
+    radial-gradient(ellipse at 20% 70%, rgba(255, 31, 143, 0.18), transparent 60%);
+}
+.picker-05::before {
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(122, 58, 255, 0.18), transparent 55%),
+    radial-gradient(ellipse at 80% 70%, rgba(233, 30, 99, 0.18), transparent 60%);
+}
+
+/* Per-category tab active color */
+.cat-tab[data-target="potenciadores"].is-active {
+  background: linear-gradient(135deg, var(--cyan), var(--cyan-deep));
+  color: var(--bg);
+  box-shadow: 0 6px 20px rgba(0, 224, 255, 0.5);
+}
+.cat-tab[data-target="retardantes"].is-active {
+  background: linear-gradient(135deg, #ff3b6b, #d6114f);
+}
+.cat-tab[data-target="comestibles"].is-active {
+  background: linear-gradient(135deg, var(--yellow), #e6b81e);
+  color: var(--bg);
+  box-shadow: 0 6px 20px rgba(255, 211, 51, 0.55);
+}
+.cat-tab[data-target="fragancias"].is-active {
+  background: linear-gradient(135deg, var(--violet), #5520d6);
+  box-shadow: 0 6px 20px rgba(122, 58, 255, 0.55);
+}
+
+/* ===========================================================
+   PICKER PANEL CONTENTS (kept for body styling)
+   =========================================================== */
+.picker {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  z-index: 3;
 }
 .picker::before {
   content: '';
@@ -2320,6 +2494,30 @@ body::before {
   .categories, .catalog, .how, .dms, .contact {
     padding: 44px 16px;
   }
+
+  /* CATALOG MASTER — mobile */
+  .catalog-master { padding: 48px 16px; }
+  .catalog-master-head { margin-bottom: 22px; }
+  .catalog-master-tag { font-size: 10px; padding: 4px 10px; }
+  .catalog-master-title { font-size: clamp(36px, 10vw, 56px); margin: 0 0 10px; }
+  .catalog-master-sub { font-size: 14px; }
+  .cat-tabs {
+    margin-bottom: 24px;
+    padding: 8px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    border-radius: 16px;
+    justify-content: flex-start;
+  }
+  .cat-tabs::-webkit-scrollbar { display: none; }
+  .cat-tab {
+    padding: 10px 16px;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .panel { padding: 20px 0 0; }
 
   /* PICKER SECTIONS — mobile */
   .picker { padding: 48px 16px; }

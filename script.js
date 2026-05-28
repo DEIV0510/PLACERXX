@@ -38,10 +38,26 @@
     a.addEventListener('click', () => nav.classList.remove('is-open'));
   });
 
-  /* ========== PICKER SECTIONS (5 interactive product configurators) ========== */
+  /* ========== CATALOG TABS (switch between 5 category panels) ========== */
+  const catTabs = document.querySelectorAll('.cat-tab');
+  const panels  = document.querySelectorAll('.catalog-panels .panel');
+
+  function activateCategory(target) {
+    if (!target) return;
+    catTabs.forEach(t => t.classList.toggle('is-active', t.dataset.target === target));
+    panels.forEach(p => p.classList.toggle('is-active', p.id === target));
+  }
+
+  catTabs.forEach(tab => {
+    tab.addEventListener('click', () => activateCategory(tab.dataset.target));
+  });
+
+  const panelIds = new Set(Array.from(panels).map(p => p.id));
+
+  /* ========== PICKER (interactive configurator inside each panel) ========== */
   const formatCOP = (n) => '$' + Number(n).toLocaleString('es-CO');
 
-  document.querySelectorAll('.picker').forEach(initPicker);
+  document.querySelectorAll('.panel').forEach(initPicker);
 
   function initPicker(section) {
     const image  = section.querySelector('[data-role="image"]');
@@ -182,15 +198,31 @@
     revealTargets.forEach(el => el.classList.add('is-in'));
   }
 
-  /* ========== SMOOTH ANCHORS ========== */
+  /* ========== SMOOTH ANCHORS (with panel-aware tab switch) ========== */
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', (e) => {
       const href = link.getAttribute('href');
       if (!href || href === '#' || href.length < 2) return;
+      const id = href.slice(1);
+
+      // If link points to a category panel, activate it AND scroll to catalog
+      if (panelIds.has(id)) {
+        e.preventDefault();
+        activateCategory(id);
+        nav && nav.classList.remove('is-open');
+        const catalog = document.getElementById('catalogo');
+        if (catalog) {
+          const offset = window.innerWidth < 768 ? 70 : 100;
+          window.scrollTo({ top: catalog.offsetTop - offset, behavior: 'smooth' });
+        }
+        return;
+      }
+
+      // Normal smooth scroll
       const target = document.querySelector(href);
       if (!target) return;
       e.preventDefault();
-      const offset = window.innerWidth < 768 ? 70 : 90;
+      const offset = window.innerWidth < 768 ? 70 : 100;
       window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
     });
   });
