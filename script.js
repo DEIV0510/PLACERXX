@@ -38,26 +38,45 @@
     a.addEventListener('click', () => nav.classList.remove('is-open'));
   });
 
-  /* ========== CATALOG TABS (switch between 5 category panels) ========== */
-  const catTabs = document.querySelectorAll('.cat-tab');
-  const panels  = document.querySelectorAll('.catalog-panels .panel');
+  /* ========== CATALOG 2-LEVEL TABS (3 super × 7 sub) ========== */
+  const superTabs   = document.querySelectorAll('.super-tab');
+  const superPanels = document.querySelectorAll('.super-panel');
 
-  function activateCategory(target) {
+  function activateSuper(target) {
     if (!target) return;
-    catTabs.forEach(t => t.classList.toggle('is-active', t.dataset.target === target));
-    panels.forEach(p => p.classList.toggle('is-active', p.id === target));
+    superTabs.forEach(t => t.classList.toggle('is-active', t.dataset.super === target));
+    superPanels.forEach(p => p.classList.toggle('is-active', p.dataset.super === target));
   }
-
-  catTabs.forEach(tab => {
-    tab.addEventListener('click', () => activateCategory(tab.dataset.target));
+  superTabs.forEach(tab => {
+    tab.addEventListener('click', () => activateSuper(tab.dataset.super));
   });
 
-  const panelIds = new Set(Array.from(panels).map(p => p.id));
+  /* Sub-tabs are scoped to their parent super-panel */
+  document.querySelectorAll('.super-panel').forEach(superPanel => {
+    const subTabs   = superPanel.querySelectorAll(':scope > .sub-tabs .sub-tab');
+    const subPanels = superPanel.querySelectorAll(':scope > .sub-panel');
+    subTabs.forEach(st => {
+      st.addEventListener('click', () => {
+        subTabs.forEach(t => t.classList.toggle('is-active', t === st));
+        subPanels.forEach(p => p.classList.toggle('is-active', p.dataset.sub === st.dataset.sub));
+      });
+    });
+  });
 
-  /* ========== PICKER (interactive configurator inside each panel) ========== */
-  const formatCOP = (n) => '$' + Number(n).toLocaleString('es-CO');
-
-  document.querySelectorAll('.panel').forEach(initPicker);
+  /* Nav links with data-super → activate that super-tab + scroll to catalog */
+  document.querySelectorAll('.nav-links a[data-super]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const sup = link.dataset.super;
+      activateSuper(sup);
+      nav && nav.classList.remove('is-open');
+      const catalog = document.getElementById('catalogo');
+      if (catalog) {
+        const offset = window.innerWidth < 768 ? 70 : 110;
+        window.scrollTo({ top: catalog.offsetTop - offset, behavior: 'smooth' });
+      }
+    });
+  });
 
   function initPicker(section) {
     const image  = section.querySelector('[data-role="image"]');
@@ -177,7 +196,7 @@
   /* ========== REVEAL ON SCROLL ========== */
   const revealTargets = document.querySelectorAll(
     '.hero-left > *, .hero-right, .hero-bottom, ' +
-    '.picker-head > *, .picker-stage, .picker-info > *, ' +
+    '.catalog-master-head > *, .super-tabs, .super-desc, .sub-tabs, .pc, ' +
     '.how-step, ' +
     '.dm, ' +
     '.contact-left > *, .contact-card'
@@ -198,27 +217,12 @@
     revealTargets.forEach(el => el.classList.add('is-in'));
   }
 
-  /* ========== SMOOTH ANCHORS (with panel-aware tab switch) ========== */
+  /* ========== SMOOTH ANCHORS ========== */
   document.querySelectorAll('a[href^="#"]').forEach(link => {
+    if (link.dataset.super) return; // handled above
     link.addEventListener('click', (e) => {
       const href = link.getAttribute('href');
       if (!href || href === '#' || href.length < 2) return;
-      const id = href.slice(1);
-
-      // If link points to a category panel, activate it AND scroll to catalog
-      if (panelIds.has(id)) {
-        e.preventDefault();
-        activateCategory(id);
-        nav && nav.classList.remove('is-open');
-        const catalog = document.getElementById('catalogo');
-        if (catalog) {
-          const offset = window.innerWidth < 768 ? 70 : 100;
-          window.scrollTo({ top: catalog.offsetTop - offset, behavior: 'smooth' });
-        }
-        return;
-      }
-
-      // Normal smooth scroll
       const target = document.querySelector(href);
       if (!target) return;
       e.preventDefault();
