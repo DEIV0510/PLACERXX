@@ -94,12 +94,19 @@ body::before {
   max-width: 480px;
   background: linear-gradient(180deg, var(--bg-3), var(--bg-2));
   border: 2px solid var(--hot);
-  padding: 48px 40px;
+  padding: 32px 40px 44px;
   text-align: center;
   box-shadow:
     0 0 0 1px var(--hot),
     0 0 40px rgba(255, 31, 143, 0.5),
     0 0 80px rgba(255, 31, 143, 0.25);
+}
+.age-gate-logo {
+  display: block;
+  height: 120px;
+  width: auto;
+  margin: 0 auto 18px;
+  filter: drop-shadow(0 6px 20px rgba(255, 31, 143, 0.5));
 }
 .age-gate-eyebrow {
   display: inline-block;
@@ -261,28 +268,17 @@ body::before {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--ff-display);
-  font-size: 24px;
-  font-weight: 400;
-  letter-spacing: 0;
   color: var(--ink);
+  transition: transform .3s var(--ease);
 }
-.logo-icon { font-size: 20px; filter: drop-shadow(0 0 8px var(--hot)); }
-.logo-name { letter-spacing: -.01em; }
-.logo-x {
-  color: var(--hot);
-  text-shadow: 0 0 12px var(--hot);
-}
-.logo-tag {
-  font-family: var(--ff-mono);
-  font-size: 9px;
-  letter-spacing: .25em;
-  background: var(--hot);
-  color: var(--ink);
-  padding: 3px 6px;
-  margin-left: 4px;
-  border-radius: 2px;
-  font-weight: 700;
+.logo:hover { transform: scale(1.03); }
+.logo-img {
+  height: 64px;
+  width: auto;
+  display: block;
+  filter:
+    drop-shadow(0 0 12px rgba(255, 31, 143, 0.45))
+    drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
 }
 
 .nav-links {
@@ -1563,6 +1559,13 @@ body::before {
   text-align: center;
 }
 .footer-brand { margin-bottom: 36px; }
+.footer-logo-img {
+  display: inline-block;
+  height: 110px;
+  width: auto;
+  margin-bottom: 18px;
+  filter: drop-shadow(0 6px 24px rgba(255, 31, 143, 0.4));
+}
 .footer-logo {
   display: inline-block;
   font-family: var(--ff-display);
@@ -1685,11 +1688,9 @@ body::before {
   .topstrip-track { gap: 18px; }
 
   /* NAV */
-  .nav { padding: 12px 0; }
-  .nav-inner { padding: 0 16px; gap: 10px; }
-  .logo { font-size: 18px; gap: 6px; }
-  .logo-icon { font-size: 16px; }
-  .logo-tag { font-size: 8px; padding: 2px 5px; margin-left: 2px; }
+  .nav { padding: 8px 0; }
+  .nav-inner { padding: 0 14px; gap: 8px; }
+  .logo-img { height: 50px; }
   .nav-links { display: none; }
   .nav-cta { padding: 8px 14px; font-size: 11px; letter-spacing: .08em; gap: 6px; }
   .nav-cta-pulse { width: 6px; height: 6px; }
@@ -2033,7 +2034,8 @@ body::before {
   }
 
   /* AGE GATE */
-  .age-gate-card { padding: 32px 22px; }
+  .age-gate-card { padding: 24px 22px 36px; }
+  .age-gate-logo { height: 90px; margin-bottom: 12px; }
   .age-gate-title { font-size: 38px; }
   .age-gate-sub { font-size: 13px; margin-bottom: 26px; }
   .age-gate-actions {
@@ -2041,6 +2043,9 @@ body::before {
     gap: 10px;
   }
   .age-gate-actions .btn { width: 100%; }
+
+  /* FOOTER LOGO */
+  .footer-logo-img { height: 85px; margin-bottom: 14px; }
 }
 
 @media (max-width: 480px) {
@@ -2115,7 +2120,12 @@ body::before {
   .topstrip-track > span { font-size: 10px; }
 
   /* AGE GATE más pequeña */
-  .age-gate-card { padding: 26px 18px; }
+  .age-gate-card { padding: 22px 18px 30px; }
+  .age-gate-logo { height: 72px; margin-bottom: 10px; }
   .age-gate-title { font-size: 30px; }
   .age-gate-sub { margin-bottom: 20px; }
+
+  /* NAV / FOOTER LOGO */
+  .logo-img { height: 44px; }
+  .footer-logo-img { height: 72px; }
 }
