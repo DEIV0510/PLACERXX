@@ -156,6 +156,12 @@
         desc: 'Lubricante íntimo base agua con efectos especiales: caliente, frío, neutro o saborizado. Sensación natural, no pega, compatible con condón.',
         features: ['Base agua', 'No pega ni mancha', 'Compatible con condón', 'Apto +18'],
       },
+      'condones-all': {
+        label: '🍿 Condón',
+        tagline: 'Protección con placer · sin sacrificar nada',
+        desc: 'Preservativos de alta calidad: saborizados, texturizados, con efecto delay & cooling o lubricados. Cuídate sin perder sensación.',
+        features: ['Látex premium', 'Certificación Invima', 'Ultra sensible', 'Apto +18'],
+      },
     };
 
     /* Detecta sub-categoría del producto por su super-panel */
@@ -210,6 +216,14 @@
         { v: 'Frutos Rojos', e: '🍓' },
       ],
       // ---- ESTRECHANTES ---- (ninguno muestra sabores en la imagen)
+      // ---- CONDONES ----
+      'Ot09': [
+        { v: 'Uva', e: '🍇' },
+        { v: 'Chocolate', e: '🍫' },
+        { v: 'Manzana', e: '🍏' },
+        { v: 'Frutos Rojos', e: '🍓' },
+        { v: 'Cereza', e: '🍒' },
+      ],
     };
 
     function getFlavors(code) {

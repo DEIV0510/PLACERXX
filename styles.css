@@ -2214,6 +2214,11 @@ body.has-drawer-open { overflow: hidden; }
   color: var(--bg);
   box-shadow: 0 6px 24px rgba(0, 224, 255, 0.55);
 }
+.super-tab[data-super="condones"].is-active {
+  background: linear-gradient(135deg, var(--yellow), #e6b81e);
+  color: var(--bg);
+  box-shadow: 0 6px 24px rgba(255, 211, 51, 0.55);
+}
 
 /* SUPER PANELS */
 .super-panel {
