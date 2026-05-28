@@ -1228,6 +1228,53 @@
   </div>
 </footer>
 
+<!-- PRODUCT DRAWER (modal con qty, sabor y recomendados) -->
+<div class="drawer" id="productDrawer" aria-hidden="true">
+  <div class="drawer-backdrop" data-close></div>
+  <div class="drawer-card" role="dialog" aria-modal="true">
+    <button class="drawer-close" data-close aria-label="Cerrar">×</button>
+
+    <div class="drawer-head">
+      <div class="drawer-img"><img data-role="img" alt="" /></div>
+      <div class="drawer-info">
+        <span class="drawer-code" data-role="code"></span>
+        <h3 class="drawer-name" data-role="name"></h3>
+        <p class="drawer-tagline">Dale el sí al deseo · personaliza tu pedido</p>
+      </div>
+    </div>
+
+    <div class="drawer-section" data-role="flavors-section" hidden>
+      <span class="drawer-label">🍓 Elige tu sabor</span>
+      <div class="drawer-chips" data-role="flavors"></div>
+    </div>
+
+    <div class="drawer-grid">
+      <div class="drawer-section">
+        <span class="drawer-label">🔥 ¿Cuántos quieres?</span>
+        <div class="drawer-qty">
+          <button class="drawer-qty-btn" data-q="minus" aria-label="Restar">−</button>
+          <span class="drawer-qty-val" data-role="qty">1</span>
+          <button class="drawer-qty-btn" data-q="plus" aria-label="Sumar">+</button>
+        </div>
+      </div>
+      <div class="drawer-section drawer-section-price">
+        <span class="drawer-label">💋 Total a pedir</span>
+        <span class="drawer-price" data-role="price"></span>
+      </div>
+    </div>
+
+    <a class="drawer-cta" data-role="cta" href="https://wa.me/573000000000" target="_blank" rel="noopener">
+      <span>Pedir por WhatsApp</span>
+      <span class="drawer-cta-icon">💋</span>
+    </a>
+
+    <div class="drawer-section drawer-recs-section">
+      <span class="drawer-label">😈 Otros que despiertan más</span>
+      <div class="drawer-recs" data-role="recs"></div>
+    </div>
+  </div>
+</div>
+
 <!-- WHATSAPP FLOAT -->
 <a href="https://wa.me/573000000000?text=Hola%20PLACERX" class="wa-float" aria-label="Chatear por WhatsApp">
   <span class="wa-float-pulse" aria-hidden="true"></span>

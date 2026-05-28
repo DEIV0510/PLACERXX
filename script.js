@@ -85,6 +85,195 @@
     setPage(1);
   });
 
+  /* ========== PRODUCT DRAWER (modal con qty, sabor, recomendados) ========== */
+  const drawer = document.getElementById('productDrawer');
+  if (drawer) initDrawer();
+
+  function initDrawer() {
+    const els = {
+      img: drawer.querySelector('[data-role="img"]'),
+      code: drawer.querySelector('[data-role="code"]'),
+      name: drawer.querySelector('[data-role="name"]'),
+      price: drawer.querySelector('[data-role="price"]'),
+      qty: drawer.querySelector('[data-role="qty"]'),
+      cta: drawer.querySelector('[data-role="cta"]'),
+      flavorsSection: drawer.querySelector('[data-role="flavors-section"]'),
+      flavors: drawer.querySelector('[data-role="flavors"]'),
+      recs: drawer.querySelector('[data-role="recs"]'),
+    };
+
+    const FLAVORS_DEFAULT = [
+      { v: 'Fresa', e: '🍓' },
+      { v: 'Sandía', e: '🍉' },
+      { v: 'Mango', e: '🥭' },
+      { v: 'Vainilla', e: '🤎' },
+      { v: 'Menta', e: '🍃' },
+      { v: 'Chocolate', e: '🍫' },
+    ];
+    const FLAVOR_KEYWORDS = /\b(sabor|sabores|saborizad|menta|fresa|frutos|vainilla|chocolate|uva|frutal|chicle|sand[ií]a|coco|cereza|mango|maracuy[áa])\b/i;
+
+    let state = { qty: 1, unit: 0, currentCard: null };
+
+    const formatCOP = n => '$' + Number(n).toLocaleString('es-CO');
+
+    function hasFlavors(name) {
+      return FLAVOR_KEYWORDS.test(name);
+    }
+
+    function renderFlavors() {
+      els.flavors.innerHTML = FLAVORS_DEFAULT
+        .map((f, i) => `<button class="drawer-chip${i === 0 ? ' is-active' : ''}" data-flavor="${f.v}">${f.e} ${f.v}</button>`)
+        .join('');
+    }
+    renderFlavors();
+
+    function getActiveFlavor() {
+      if (els.flavorsSection.hasAttribute('hidden')) return null;
+      const chip = drawer.querySelector('.drawer-chip.is-active');
+      return chip ? chip.dataset.flavor : null;
+    }
+
+    function updateTotal() {
+      els.price.textContent = formatCOP(state.unit * state.qty);
+    }
+
+    function buildCTA() {
+      const name = els.name.textContent;
+      const code = els.code.textContent;
+      const flavor = getActiveFlavor();
+      const lines = [`Hola PLACERX, quiero pedir 🔥`];
+      lines.push(`• ${name} (cód. ${code})`);
+      if (flavor) lines.push(`• Sabor: ${flavor}`);
+      lines.push(`• Cantidad: ${state.qty}`);
+      lines.push(`• Total: ${formatCOP(state.unit * state.qty)}`);
+      els.cta.href = `https://wa.me/573000000000?text=${encodeURIComponent(lines.join('\n'))}`;
+    }
+
+    function pickRecs(card) {
+      const superPanel = card.closest('.super-panel');
+      const pool = superPanel
+        ? Array.from(superPanel.querySelectorAll('.pc')).filter(p => p !== card)
+        : Array.from(document.querySelectorAll('.pc')).filter(p => p !== card);
+      // Shuffle
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+      return pool.slice(0, 4);
+    }
+
+    function renderRecs(card) {
+      const recs = pickRecs(card);
+      els.recs.innerHTML = recs.map(r => {
+        const img = r.querySelector('.pc-img img');
+        const name = r.querySelector('.pc-name').textContent;
+        const price = r.querySelector('.pc-price').textContent;
+        const code = r.dataset.code;
+        return `<button class="drawer-rec" data-rec-code="${code}">
+          <div class="drawer-rec-img"><img src="${img.src}" alt="" loading="lazy" /></div>
+          <div class="drawer-rec-body">
+            <p class="drawer-rec-name">${name}</p>
+            <span class="drawer-rec-price">${price}</span>
+          </div>
+        </button>`;
+      }).join('');
+    }
+
+    function openDrawer(card) {
+      state.currentCard = card;
+      const code = card.dataset.code;
+      const name = card.querySelector('.pc-name').textContent;
+      const priceText = card.querySelector('.pc-price').textContent;
+      const unit = Number(priceText.replace(/[^\d]/g, ''));
+      const imgEl = card.querySelector('.pc-img img');
+
+      els.code.textContent = code;
+      els.name.textContent = name;
+      els.img.src = imgEl.src;
+      els.img.alt = name;
+      state.unit = unit;
+      state.qty = 1;
+      els.qty.textContent = '1';
+
+      // Mostrar/ocultar sabores
+      if (hasFlavors(name)) {
+        els.flavorsSection.removeAttribute('hidden');
+        drawer.querySelectorAll('.drawer-chip').forEach((c, i) => {
+          c.classList.toggle('is-active', i === 0);
+        });
+      } else {
+        els.flavorsSection.setAttribute('hidden', '');
+      }
+
+      updateTotal();
+      buildCTA();
+      renderRecs(card);
+
+      drawer.classList.add('is-open');
+      drawer.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('has-drawer-open');
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove('is-open');
+      drawer.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('has-drawer-open');
+    }
+
+    // Click en cualquier .pc-cta del catálogo → abre drawer (en vez de ir directo a WhatsApp)
+    document.addEventListener('click', (e) => {
+      const cta = e.target.closest('.pc-cta');
+      if (cta) {
+        const card = cta.closest('.pc');
+        if (card) {
+          e.preventDefault();
+          openDrawer(card);
+          return;
+        }
+      }
+      // Click en una rec → cambiar al producto recomendado
+      const rec = e.target.closest('.drawer-rec');
+      if (rec) {
+        const code = rec.dataset.recCode;
+        const target = document.querySelector('.pc[data-code="' + code + '"]');
+        if (target) {
+          openDrawer(target);
+          drawer.querySelector('.drawer-card').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        return;
+      }
+      // Cerrar
+      if (e.target.matches('[data-close]')) {
+        closeDrawer();
+      }
+    });
+
+    // Qty buttons
+    drawer.querySelectorAll('.drawer-qty-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.q === 'plus') state.qty = Math.min(state.qty + 1, 99);
+        else state.qty = Math.max(state.qty - 1, 1);
+        els.qty.textContent = String(state.qty);
+        updateTotal();
+        buildCTA();
+      });
+    });
+
+    // Flavor chips (delegation)
+    els.flavors.addEventListener('click', (e) => {
+      const chip = e.target.closest('.drawer-chip');
+      if (!chip) return;
+      drawer.querySelectorAll('.drawer-chip').forEach(c => c.classList.remove('is-active'));
+      chip.classList.add('is-active');
+      buildCTA();
+    });
+
+    // Cerrar con ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && drawer.classList.contains('is-open')) closeDrawer();
+    });
+  }
+
   /* ========== CATALOG 2-LEVEL TABS (3 super × 7 sub) ========== */
   const superTabs   = document.querySelectorAll('.super-tab');
   const superPanels = document.querySelectorAll('.super-panel');
