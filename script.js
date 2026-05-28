@@ -168,30 +168,71 @@
       return CAT_INFO.potenciadores;
     }
 
-    const FLAVORS_DEFAULT = [
-      { v: 'Fresa', e: '🍓' },
-      { v: 'Sandía', e: '🍉' },
-      { v: 'Mango', e: '🥭' },
-      { v: 'Vainilla', e: '🤎' },
-      { v: 'Menta', e: '🍃' },
-      { v: 'Chocolate', e: '🍫' },
-    ];
-    const FLAVOR_KEYWORDS = /\b(sabor|sabores|saborizad|menta|fresa|frutos|vainilla|chocolate|uva|frutal|chicle|sand[ií]a|coco|cereza|mango|maracuy[áa])\b/i;
+    /* Sabores específicos por producto (leídos de cada imagen) */
+    const PRODUCT_FLAVORS = {
+      // Lubricantes
+      'Lu01': [
+        { v: 'Caramelo', e: '🍯' },
+        { v: 'Chocolate', e: '🍫' },
+        { v: 'Caliente', e: '🔥' },
+        { v: 'Lychee', e: '🍒' },
+      ],
+      'Lu04': [
+        { v: 'Chocolate', e: '🍫' },
+        { v: 'Caramelo', e: '🍯' },
+        { v: 'Café Moka', e: '☕' },
+        { v: 'Crema de Whisky', e: '🥃' },
+      ],
+      'Lu21': [{ v: 'Menta', e: '🍃' }],
+      'Lu33': [
+        { v: 'Fresa', e: '🍓' },
+        { v: 'Frambuesa', e: '🫐' },
+        { v: 'Cereza', e: '🍒' },
+        { v: 'Uva', e: '🍇' },
+        { v: 'Chocolate', e: '🍫' },
+      ],
+      'Lu41': [
+        { v: 'Fresa', e: '🍓' },
+        { v: 'Sandía', e: '🍉' },
+        { v: 'Mango', e: '🥭' },
+        { v: 'Chocolate', e: '🍫' },
+      ],
+      // Multiorgásmicos con sabores
+      'M01': [
+        { v: 'Lychee', e: '🍒' },
+        { v: 'Tequila', e: '🥃' },
+        { v: 'Crema de Whisky', e: '🥃' },
+        { v: 'Mango', e: '🥭' },
+      ],
+      // Brillos labiales
+      'F05': [{ v: 'Frutos Rojos', e: '🍓' }],
+      'F07': [
+        { v: 'Sandía', e: '🍉' },
+        { v: 'Frutos Rojos', e: '🍓' },
+      ],
+      // Estrechantes con sabor
+      'Es12': [{ v: 'Uva', e: '🍇' }],
+    };
+
+    function getFlavors(code) {
+      return PRODUCT_FLAVORS[code] || null;
+    }
 
     let state = { qty: 1, unit: 0, currentCard: null };
 
     const formatCOP = n => '$' + Number(n).toLocaleString('es-CO');
 
-    function hasFlavors(name) {
-      return FLAVOR_KEYWORDS.test(name);
-    }
-
-    function renderFlavors() {
-      els.flavors.innerHTML = FLAVORS_DEFAULT
+    function renderFlavors(code) {
+      const list = getFlavors(code);
+      if (!list) {
+        els.flavors.innerHTML = '';
+        return false;
+      }
+      els.flavors.innerHTML = list
         .map((f, i) => `<button class="drawer-chip${i === 0 ? ' is-active' : ''}" data-flavor="${f.v}">${f.e} ${f.v}</button>`)
         .join('');
+      return true;
     }
-    renderFlavors();
 
     function getActiveFlavor() {
       if (els.flavorsSection.hasAttribute('hidden')) return null;
@@ -267,12 +308,10 @@
       state.qty = 1;
       els.qty.textContent = '1';
 
-      // Mostrar/ocultar sabores
-      if (hasFlavors(name)) {
+      // Mostrar/ocultar sabores según el código
+      const hasFlav = renderFlavors(code);
+      if (hasFlav) {
         els.flavorsSection.removeAttribute('hidden');
-        drawer.querySelectorAll('.drawer-chip').forEach((c, i) => {
-          c.classList.toggle('is-active', i === 0);
-        });
       } else {
         els.flavorsSection.setAttribute('hidden', '');
       }
