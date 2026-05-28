@@ -103,10 +103,10 @@ body::before {
 }
 .age-gate-logo {
   display: block;
-  height: 120px;
+  height: 260px;
   width: auto;
-  margin: 0 auto 18px;
-  filter: drop-shadow(0 6px 20px rgba(255, 31, 143, 0.5));
+  margin: 0 auto 24px;
+  filter: drop-shadow(0 10px 32px rgba(255, 31, 143, 0.6));
 }
 .age-gate-eyebrow {
   display: inline-block;
@@ -247,14 +247,15 @@ body::before {
   background: rgba(8, 0, 10, 0.85);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--line);
-  padding: 14px 0;
+  padding: 8px 0;
   transition: padding .3s var(--ease);
 }
 .nav.is-scrolled {
-  padding: 8px 0;
+  padding: 4px 0;
   background: rgba(8, 0, 10, 0.95);
   box-shadow: 0 0 30px rgba(255, 31, 143, 0.15);
 }
+.nav.is-scrolled .logo-img { height: 96px; }
 .nav-inner {
   max-width: var(--maxw);
   margin: 0 auto;
@@ -273,11 +274,12 @@ body::before {
 }
 .logo:hover { transform: scale(1.03); }
 .logo-img {
-  height: 64px;
+  height: 140px;
   width: auto;
   display: block;
+  transition: height .3s var(--ease);
   filter:
-    drop-shadow(0 0 12px rgba(255, 31, 143, 0.45))
+    drop-shadow(0 0 18px rgba(255, 31, 143, 0.55))
     drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
 }
 
@@ -1561,10 +1563,10 @@ body::before {
 .footer-brand { margin-bottom: 36px; }
 .footer-logo-img {
   display: inline-block;
-  height: 110px;
+  height: 200px;
   width: auto;
-  margin-bottom: 18px;
-  filter: drop-shadow(0 6px 24px rgba(255, 31, 143, 0.4));
+  margin-bottom: 24px;
+  filter: drop-shadow(0 10px 32px rgba(255, 31, 143, 0.5));
 }
 .footer-logo {
   display: inline-block;
@@ -1688,9 +1690,10 @@ body::before {
   .topstrip-track { gap: 18px; }
 
   /* NAV */
-  .nav { padding: 8px 0; }
+  .nav { padding: 6px 0; }
   .nav-inner { padding: 0 14px; gap: 8px; }
-  .logo-img { height: 50px; }
+  .logo-img { height: 110px; }
+  .nav.is-scrolled .logo-img { height: 84px; }
   .nav-links { display: none; }
   .nav-cta { padding: 8px 14px; font-size: 11px; letter-spacing: .08em; gap: 6px; }
   .nav-cta-pulse { width: 6px; height: 6px; }
@@ -2035,7 +2038,7 @@ body::before {
 
   /* AGE GATE */
   .age-gate-card { padding: 24px 22px 36px; }
-  .age-gate-logo { height: 90px; margin-bottom: 12px; }
+  .age-gate-logo { height: 210px; margin-bottom: 18px; }
   .age-gate-title { font-size: 38px; }
   .age-gate-sub { font-size: 13px; margin-bottom: 26px; }
   .age-gate-actions {
@@ -2045,7 +2048,7 @@ body::before {
   .age-gate-actions .btn { width: 100%; }
 
   /* FOOTER LOGO */
-  .footer-logo-img { height: 85px; margin-bottom: 14px; }
+  .footer-logo-img { height: 160px; margin-bottom: 20px; }
 }
 
 @media (max-width: 480px) {
@@ -2121,11 +2124,12 @@ body::before {
 
   /* AGE GATE más pequeña */
   .age-gate-card { padding: 22px 18px 30px; }
-  .age-gate-logo { height: 72px; margin-bottom: 10px; }
+  .age-gate-logo { height: 170px; margin-bottom: 14px; }
   .age-gate-title { font-size: 30px; }
   .age-gate-sub { margin-bottom: 20px; }
 
   /* NAV / FOOTER LOGO */
-  .logo-img { height: 44px; }
-  .footer-logo-img { height: 72px; }
+  .logo-img { height: 92px; }
+  .nav.is-scrolled .logo-img { height: 72px; }
+  .footer-logo-img { height: 130px; }
 }
