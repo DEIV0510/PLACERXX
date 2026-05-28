@@ -1658,6 +1658,19 @@ body::before {
   transform: translateY(0);
 }
 
+/* En móvil: cards en scroll horizontal deben ser estáticas (sin animar al scroll vertical) */
+@media (max-width: 768px) {
+  .how-step.reveal,
+  .cat.reveal,
+  .dm.reveal,
+  .pc.reveal,
+  .prod.reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* ===========================================================
    CATALOG MASTER (single section, 5 switchable panels)
    =========================================================== */
