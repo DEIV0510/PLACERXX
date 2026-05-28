@@ -1,6 +1,8 @@
 (() => {
   'use strict';
 
+  const WA_NUMBER = '573000000000';
+
   /* ========== AGE GATE ========== */
   const ageGate = document.getElementById('ageGate');
   const ageYes = document.getElementById('ageYes');
@@ -36,48 +38,130 @@
     a.addEventListener('click', () => nav.classList.remove('is-open'));
   });
 
-  /* ========== CATALOG FILTER ========== */
-  const filterBar = document.getElementById('catalogFilter');
-  const products = document.querySelectorAll('#productGrid .prod');
+  /* ========== PICKER SECTIONS (5 interactive product configurators) ========== */
+  const formatCOP = (n) => '$' + Number(n).toLocaleString('es-CO');
 
-  const applyFilter = (filter) => {
-    if (!filterBar) return;
-    filterBar.querySelectorAll('.filter-pill').forEach(p => {
-      p.classList.toggle('is-active', p.dataset.filter === filter);
-    });
-    products.forEach(p => {
-      const show = filter === 'todos' || p.dataset.cat === filter;
-      p.classList.toggle('is-hidden', !show);
-    });
-  };
+  document.querySelectorAll('.picker').forEach(initPicker);
 
-  filterBar && filterBar.addEventListener('click', (e) => {
-    const pill = e.target.closest('.filter-pill');
-    if (!pill) return;
-    applyFilter(pill.dataset.filter);
-  });
+  function initPicker(section) {
+    const image  = section.querySelector('[data-role="image"]');
+    const name   = section.querySelector('[data-role="name"]');
+    const desc   = section.querySelector('[data-role="desc"]');
+    const price  = section.querySelector('[data-role="price"]');
+    const cta    = section.querySelector('[data-role="cta"]');
+    const qtyVal = section.querySelector('[data-role="qty-value"]');
+    const variantsBox = section.querySelector('[data-role="variants-container"]');
+    const notesBox    = section.querySelector('[data-role="notes-row"]');
+    const notesEl     = section.querySelector('[data-role="notes"]');
 
-  /* Category card → jump to filter */
-  document.querySelectorAll('.cat[data-filter]').forEach(card => {
-    card.addEventListener('click', (e) => {
-      const filter = card.dataset.filter;
-      if (!filter) return;
-      e.preventDefault();
-      applyFilter(filter);
-      const catalog = document.getElementById('catalogo');
-      if (catalog) {
-        const offset = window.innerWidth < 768 ? 70 : 90;
-        window.scrollTo({ top: catalog.offsetTop - offset, behavior: 'smooth' });
+    const tabs  = section.querySelectorAll('.tab');
+    const chips = section.querySelectorAll('.chip');
+    const qtyBtns = section.querySelectorAll('.qty-btn');
+
+    const state = { qty: 1 };
+
+    function buildCTA() {
+      const activeTab  = section.querySelector('.tab.is-active') || tabs[0];
+      const activeChip = section.querySelector('.chip.is-active');
+      const productName = activeTab ? activeTab.dataset.name : '';
+      const variant = (variantsBox && !variantsBox.classList.contains('is-hidden') && activeChip)
+        ? activeChip.dataset.variant : null;
+
+      const lines = [`Hola PLACERX, quiero pedir:`];
+      lines.push(`• ${productName}${variant ? ` (sabor: ${variant})` : ''}`);
+      lines.push(`• Cantidad: ${state.qty}`);
+      if (cta) cta.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
+    }
+
+    function updateTotal() {
+      const activeTab = section.querySelector('.tab.is-active') || tabs[0];
+      if (!price || !activeTab) return;
+      const unit = Number(activeTab.dataset.price || 0);
+      const total = unit * state.qty;
+      // Swap animation
+      price.classList.add('is-swapping');
+      setTimeout(() => {
+        price.textContent = formatCOP(total);
+        price.classList.remove('is-swapping');
+      }, 130);
+    }
+
+    function applyProduct(tab) {
+      if (!tab) return;
+      tabs.forEach(t => t.classList.remove('is-active'));
+      tab.classList.add('is-active');
+
+      // Show/hide variants block based on data-variants
+      if (variantsBox) {
+        const hasVariants = tab.dataset.variants !== 'false';
+        variantsBox.classList.toggle('is-hidden', !hasVariants);
       }
+
+      // Animated swap
+      if (image) {
+        image.classList.add('is-swapping');
+        setTimeout(() => {
+          image.src = tab.dataset.img;
+          image.alt = tab.dataset.name;
+          image.classList.remove('is-swapping');
+        }, 180);
+      }
+      if (name) {
+        name.classList.add('is-swapping');
+        setTimeout(() => {
+          name.textContent = tab.dataset.name;
+          name.classList.remove('is-swapping');
+        }, 120);
+      }
+      if (desc) {
+        desc.classList.add('is-swapping');
+        setTimeout(() => {
+          desc.textContent = tab.dataset.desc;
+          desc.classList.remove('is-swapping');
+        }, 140);
+      }
+
+      // Update notes if present
+      if (notesEl && tab.dataset.notes) {
+        notesEl.innerHTML = tab.dataset.notes
+          .split('·')
+          .map(n => `<span class="note">${n.trim()}</span>`)
+          .join('');
+      }
+
+      updateTotal();
+      buildCTA();
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => applyProduct(tab));
     });
-  });
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('is-active'));
+        chip.classList.add('is-active');
+        buildCTA();
+      });
+    });
+
+    qtyBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.qtyAction === 'plus')      state.qty = Math.min(state.qty + 1, 99);
+        else if (btn.dataset.qtyAction === 'minus') state.qty = Math.max(state.qty - 1, 1);
+        if (qtyVal) qtyVal.textContent = state.qty;
+        updateTotal();
+        buildCTA();
+      });
+    });
+
+    buildCTA();
+  }
 
   /* ========== REVEAL ON SCROLL ========== */
   const revealTargets = document.querySelectorAll(
     '.hero-left > *, .hero-right, .hero-bottom, ' +
-    '.section-head, .cat, ' +
-    '.filter-pill, .prod, ' +
-    '.hotbanner-left > *, .hotbanner-product, ' +
+    '.picker-head > *, .picker-stage, .picker-info > *, ' +
     '.how-step, ' +
     '.dm, ' +
     '.contact-left > *, .contact-card'
@@ -114,7 +198,6 @@
   /* ========== HERO PARALLAX ========== */
   const heroProduct = document.querySelector('.hero-product');
   const heroSign = document.querySelector('.hero-sign');
-  const heroStamp = document.querySelector('.hero-stamp');
   if (heroProduct && window.matchMedia('(min-width: 1024px)').matches) {
     window.addEventListener('mousemove', (e) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 2;
