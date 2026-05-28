@@ -594,10 +594,15 @@ body::before {
 .hero-product img {
   position: relative;
   z-index: 2;
-  max-width: 80%;
-  max-height: 80%;
+  max-width: 92%;
+  max-height: 92%;
   object-fit: contain;
-  filter: drop-shadow(0 20px 50px rgba(255, 31, 143, 0.55));
+  border-radius: 24px;
+  filter:
+    drop-shadow(0 0 30px rgba(255, 31, 143, 0.65))
+    drop-shadow(0 20px 50px rgba(255, 31, 143, 0.45));
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 55%, transparent 95%);
+          mask-image: radial-gradient(ellipse at center, #000 55%, transparent 95%);
   animation: bob 6s ease-in-out infinite;
 }
 @keyframes bob {
@@ -624,21 +629,20 @@ body::before {
 .hero-float {
   position: absolute;
   z-index: 4;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 2px solid rgba(255, 31, 143, 0.4);
-  box-shadow:
-    0 0 0 1px rgba(255, 31, 143, 0.3),
-    0 10px 30px rgba(255, 31, 143, 0.4),
-    0 20px 50px rgba(0, 0, 0, 0.4);
   transition: transform .4s var(--ease-pop);
   pointer-events: none;
+  filter:
+    drop-shadow(0 0 24px rgba(255, 31, 143, 0.6))
+    drop-shadow(0 12px 30px rgba(255, 31, 143, 0.4));
 }
 .hero-float img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 18px;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 50%, transparent 95%);
+          mask-image: radial-gradient(ellipse at center, #000 50%, transparent 95%);
 }
 .hero-float-1 {
   width: 130px; height: 100px;
