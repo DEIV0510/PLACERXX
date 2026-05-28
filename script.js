@@ -97,10 +97,76 @@
       price: drawer.querySelector('[data-role="price"]'),
       qty: drawer.querySelector('[data-role="qty"]'),
       cta: drawer.querySelector('[data-role="cta"]'),
+      tagline: drawer.querySelector('[data-role="tagline"]'),
+      cat: drawer.querySelector('[data-role="cat"]'),
+      desc: drawer.querySelector('[data-role="desc"]'),
+      features: drawer.querySelector('[data-role="features"]'),
       flavorsSection: drawer.querySelector('[data-role="flavors-section"]'),
       flavors: drawer.querySelector('[data-role="flavors"]'),
       recs: drawer.querySelector('[data-role="recs"]'),
     };
+
+    /* Info por subcategoría: label + descripción + features + tagline */
+    const CAT_INFO = {
+      potenciadores: {
+        label: '⚡ Potenciador',
+        tagline: 'Para llegar con todo · sin perder el ritmo',
+        desc: 'Potenciador masculino/femenino de acción rápida que aumenta la libido, la resistencia y la firmeza. Ideal para esas noches donde quieres ir con todo y aguantar más.',
+        features: ['Acción en 20–30 min', 'Duración 4–6 horas', 'Sin perder sensación', 'Apto +18'],
+      },
+      retardantes: {
+        label: '⏱ Retardante',
+        tagline: 'Aguanta más · sin perder sensación',
+        desc: 'Producto para el control de la eyaculación. Permite prolongar el placer sin perder sensibilidad ni anestesiar la zona. Aplicación discreta minutos antes.',
+        features: ['Efecto +30 min', 'No adormece', 'Compatible con condón', 'Apto +18'],
+      },
+      multiorgasmos: {
+        label: '💥 Multiorgásmico',
+        tagline: 'Para sentir 5 veces más · y volver a empezar',
+        desc: 'Gel/elixir estimulante que multiplica la sensibilidad de las zonas íntimas. Provoca múltiples orgasmos en una sola noche con sensación electrizante.',
+        features: ['Aumenta sensibilidad', 'Sensación frío/calor', 'Múltiples orgasmos', 'Apto +18'],
+      },
+      estrechantes: {
+        label: '🔒 Estrechante',
+        tagline: 'Recupera la firmeza · siéntelo todo',
+        desc: 'Gel femenino que contrae las paredes vaginales para una sensación de mayor ajuste y firmeza. Sensación natural, sin químicos agresivos.',
+        features: ['Sensación primera vez', 'Aplicación íntima', 'Apto +18'],
+      },
+      'cuidado-intimo': {
+        label: '🌷 Cuidado íntimo',
+        tagline: 'Tu zona merece lo mejor · cuídala bonito',
+        desc: 'Línea de cuidado íntimo: despigmentantes, desodorantes y limpiadores formulados con ingredientes seguros para la piel más delicada.',
+        features: ['pH balanceado', 'Sin parabenos', 'Uso diario', 'Resultados visibles'],
+      },
+      'cuidado-facial': {
+        label: '✨ Cuidado facial',
+        tagline: 'Realza tu atractivo · sin esfuerzo',
+        desc: 'Brillos labiales y productos faciales con feromonas que potencian tu encanto natural. Acabado seductor con un toque sutil de magnetismo.',
+        features: ['Con feromonas', 'Larga duración', 'Aroma irresistible'],
+      },
+      'cuerpo-masajes': {
+        label: '🌹 Cuerpo y masajes',
+        tagline: 'Crea el ambiente · sin decir una palabra',
+        desc: 'Aceites, velas y splash con feromonas para masajes sensuales y ambiente íntimo. Activa el deseo desde el primer contacto.',
+        features: ['Con feromonas', 'Apto para piel', 'Aroma envolvente'],
+      },
+      lubricantes: {
+        label: '💧 Lubricante',
+        tagline: 'Para que todo fluya · sin pausa',
+        desc: 'Lubricante íntimo base agua con efectos especiales: caliente, frío, neutro o saborizado. Sensación natural, no pega, compatible con condón.',
+        features: ['Base agua', 'No pega ni mancha', 'Compatible con condón', 'Apto +18'],
+      },
+    };
+
+    /* Detecta sub-categoría del producto por su super-panel */
+    function getCatInfo(card) {
+      const subPanel = card.closest('.sub-panel');
+      const sub = subPanel ? subPanel.dataset.sub : null;
+      if (sub && CAT_INFO[sub]) return CAT_INFO[sub];
+      // Lubricantes legacy
+      if (sub && sub.indexOf('lubricantes') === 0) return CAT_INFO.lubricantes;
+      return CAT_INFO.potenciadores;
+    }
 
     const FLAVORS_DEFAULT = [
       { v: 'Fresa', e: '🍓' },
@@ -186,11 +252,17 @@
       const priceText = card.querySelector('.pc-price').textContent;
       const unit = Number(priceText.replace(/[^\d]/g, ''));
       const imgEl = card.querySelector('.pc-img img');
+      const info = getCatInfo(card);
 
       els.code.textContent = code;
       els.name.textContent = name;
       els.img.src = imgEl.src;
       els.img.alt = name;
+      els.tagline.textContent = info.tagline;
+      els.cat.textContent = info.label;
+      els.desc.textContent = info.desc;
+      els.features.innerHTML = info.features.map(f => `<li>✓ ${f}</li>`).join('');
+
       state.unit = unit;
       state.qty = 1;
       els.qty.textContent = '1';
@@ -212,6 +284,9 @@
       drawer.classList.add('is-open');
       drawer.setAttribute('aria-hidden', 'false');
       document.body.classList.add('has-drawer-open');
+      // Reset scroll
+      const card_el = drawer.querySelector('.drawer-card');
+      if (card_el) card_el.scrollTop = 0;
     }
 
     function closeDrawer() {
@@ -220,31 +295,26 @@
       document.body.classList.remove('has-drawer-open');
     }
 
-    // Click en cualquier .pc-cta del catálogo → abre drawer (en vez de ir directo a WhatsApp)
+    // Click en cualquier parte de la card del catálogo → abre drawer
     document.addEventListener('click', (e) => {
-      const cta = e.target.closest('.pc-cta');
-      if (cta) {
-        const card = cta.closest('.pc');
-        if (card) {
-          e.preventDefault();
-          openDrawer(card);
-          return;
-        }
-      }
-      // Click en una rec → cambiar al producto recomendado
+      // Si clickea una rec dentro del drawer → cambiar al producto recomendado
       const rec = e.target.closest('.drawer-rec');
       if (rec) {
         const code = rec.dataset.recCode;
         const target = document.querySelector('.pc[data-code="' + code + '"]');
-        if (target) {
-          openDrawer(target);
-          drawer.querySelector('.drawer-card').scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        if (target) openDrawer(target);
         return;
       }
-      // Cerrar
+      // Cerrar drawer
       if (e.target.matches('[data-close]')) {
         closeDrawer();
+        return;
+      }
+      // Card del catálogo (cualquier punto)
+      const card = e.target.closest('.pc');
+      if (card && !e.target.closest('.drawer')) {
+        e.preventDefault();
+        openDrawer(card);
       }
     });
 
