@@ -170,11 +170,11 @@
 
     /* Sabores específicos por producto (leídos de cada imagen) */
     const PRODUCT_FLAVORS = {
-      // Lubricantes
+      // ---- LUBRICANTES (4 con sabores) ----
       'Lu01': [
         { v: 'Caramelo', e: '🍯' },
         { v: 'Chocolate', e: '🍫' },
-        { v: 'Caliente', e: '🔥' },
+        { v: 'Crema de Whisky', e: '🥃' },
         { v: 'Lychee', e: '🍒' },
       ],
       'Lu04': [
@@ -183,34 +183,33 @@
         { v: 'Café Moka', e: '☕' },
         { v: 'Crema de Whisky', e: '🥃' },
       ],
-      'Lu21': [{ v: 'Menta', e: '🍃' }],
       'Lu33': [
         { v: 'Fresa', e: '🍓' },
         { v: 'Frambuesa', e: '🫐' },
         { v: 'Cereza', e: '🍒' },
         { v: 'Uva', e: '🍇' },
-        { v: 'Chocolate', e: '🍫' },
+        { v: 'Chocolate Picante', e: '🌶️' },
       ],
       'Lu41': [
-        { v: 'Fresa', e: '🍓' },
+        { v: 'Chicle', e: '🩷' },
         { v: 'Sandía', e: '🍉' },
-        { v: 'Mango', e: '🥭' },
-        { v: 'Chocolate', e: '🍫' },
+        { v: 'Fresa Bombón', e: '🍓' },
+        { v: 'Crema de Whisky', e: '🥃' },
       ],
-      // Multiorgásmicos con sabores
+      // ---- MULTIORGÁSMICOS ----
       'M01': [
         { v: 'Lychee', e: '🍒' },
         { v: 'Tequila', e: '🥃' },
         { v: 'Crema de Whisky', e: '🥃' },
         { v: 'Mango', e: '🥭' },
       ],
-      // Brillos labiales
+      // ---- BRILLOS LABIALES ----
       'F05': [{ v: 'Frutos Rojos', e: '🍓' }],
       'F07': [
         { v: 'Sandía', e: '🍉' },
         { v: 'Frutos Rojos', e: '🍓' },
       ],
-      // Estrechantes con sabor
+      // ---- ESTRECHANTES ----
       'Es12': [{ v: 'Uva', e: '🍇' }],
     };
 
