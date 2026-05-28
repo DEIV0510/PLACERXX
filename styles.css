@@ -2814,9 +2814,27 @@ body::before {
     font-size: 11px;
     flex-shrink: 0;
   }
+  /* PRODUCT CARDS — scroll horizontal con snap en móvil */
   .pc-grid {
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-direction: row;
     gap: 12px;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 16px;
+    margin: 0 -16px;
+    padding: 12px 16px 20px;
+    scrollbar-width: none;
+    grid-template-columns: none;
+  }
+  .pc-grid::-webkit-scrollbar { display: none; }
+  .pc {
+    flex: 0 0 auto;
+    width: 64vw;
+    max-width: 220px;
+    scroll-snap-align: start;
   }
   .pc-body { padding: 10px 10px 12px; }
   .pc-name { font-size: 12px; min-height: 2.4em; }
@@ -3151,9 +3169,10 @@ body::before {
   .products,
   .cat-grid,
   .how-steps,
-  .dms-grid {
+  .dms-grid,
+  .pc-grid {
     margin: 0 -14px;
-    padding: 8px 14px 14px;
+    padding: 10px 14px 18px;
     scroll-padding-left: 14px;
   }
   .filter { margin: 0 -14px 14px; padding: 0 14px 10px; }
@@ -3161,6 +3180,7 @@ body::before {
   .cat { width: 74vw; max-width: 220px; min-height: 190px; padding: 18px 18px; }
   .how-step { width: 82vw; max-width: 270px; padding: 22px 20px; min-height: 180px; }
   .dm { width: 86vw; max-width: 290px; padding: 16px 16px 20px; }
+  .pc { width: 68vw; max-width: 200px; }
   .prod-name { font-size: 16px; }
   .prod-desc { font-size: 12.5px; }
   .prod-price { font-size: 18px; }
