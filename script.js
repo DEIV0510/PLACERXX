@@ -38,6 +38,53 @@
     a.addEventListener('click', () => nav.classList.remove('is-open'));
   });
 
+  /* ========== PAGINATOR (8 productos por página) ========== */
+  const PER_PAGE = 8;
+  document.querySelectorAll('.sub-panel .pc-grid').forEach(grid => {
+    const cards = Array.from(grid.querySelectorAll('.pc'));
+    if (cards.length <= PER_PAGE) return;
+
+    const totalPages = Math.ceil(cards.length / PER_PAGE);
+    cards.forEach((card, i) => {
+      card.dataset.page = String(Math.floor(i / PER_PAGE) + 1);
+    });
+
+    const pager = document.createElement('div');
+    pager.className = 'pc-pager';
+    for (let p = 1; p <= totalPages; p++) {
+      if (p > 1) {
+        const dot = document.createElement('span');
+        dot.className = 'pc-pager-dot';
+        dot.textContent = '·';
+        pager.appendChild(dot);
+      }
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pc-page-btn' + (p === 1 ? ' is-active' : '');
+      btn.dataset.page = String(p);
+      btn.textContent = String(p);
+      pager.appendChild(btn);
+    }
+    grid.parentNode.insertBefore(pager, grid.nextSibling);
+
+    const setPage = (p) => {
+      const pStr = String(p);
+      cards.forEach(card => {
+        card.style.display = (card.dataset.page === pStr) ? '' : 'none';
+      });
+      pager.querySelectorAll('.pc-page-btn').forEach(b =>
+        b.classList.toggle('is-active', b.dataset.page === pStr)
+      );
+      grid.scrollLeft = 0;
+    };
+
+    pager.addEventListener('click', (e) => {
+      const btn = e.target.closest('.pc-page-btn');
+      if (btn) setPage(btn.dataset.page);
+    });
+    setPage(1);
+  });
+
   /* ========== CATALOG 2-LEVEL TABS (3 super × 7 sub) ========== */
   const superTabs   = document.querySelectorAll('.super-tab');
   const superPanels = document.querySelectorAll('.super-panel');

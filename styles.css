@@ -1984,6 +1984,67 @@ body::before {
   transform: scale(1.05);
   filter: brightness(1.15);
 }
+
+/* PAGINATOR (1 · 2 · 3) */
+.pc-pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 28px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  max-width: max-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+.pc-page-btn {
+  min-width: 38px;
+  height: 38px;
+  padding: 0 14px;
+  font-family: var(--ff-mono);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all .25s var(--ease-pop);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.pc-page-btn:hover {
+  color: var(--ink);
+  background: rgba(255, 31, 143, 0.1);
+}
+.pc-page-btn.is-active {
+  background: linear-gradient(135deg, var(--hot), var(--hot-deep));
+  color: var(--ink);
+  box-shadow: 0 4px 16px rgba(255, 31, 143, 0.5);
+  transform: scale(1.06);
+}
+.super-panel[data-super="sensaciones"] .pc-page-btn.is-active {
+  background: linear-gradient(135deg, var(--violet), #4a18b8);
+  box-shadow: 0 4px 16px rgba(122, 58, 255, 0.5);
+}
+.super-panel[data-super="ritual"] .pc-page-btn.is-active {
+  background: linear-gradient(135deg, var(--cyan), var(--cyan-deep));
+  color: var(--bg);
+  box-shadow: 0 4px 16px rgba(0, 224, 255, 0.5);
+}
+.pc-pager-dot {
+  font-family: var(--ff-mono);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--ink-mute);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
 .cat-tab {
   padding: 12px 22px;
   font-family: var(--ff-body);
@@ -2814,6 +2875,20 @@ body::before {
     font-size: 11px;
     flex-shrink: 0;
   }
+  /* Paginator mobile */
+  .pc-pager {
+    margin-top: 20px;
+    padding: 8px 14px;
+    gap: 4px;
+  }
+  .pc-page-btn {
+    min-width: 34px;
+    height: 34px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+  .pc-pager-dot { font-size: 16px; }
+
   /* PRODUCT CARDS — scroll horizontal con snap en móvil */
   .pc-grid {
     display: flex;
