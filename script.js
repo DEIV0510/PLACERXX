@@ -162,6 +162,12 @@
         desc: 'Preservativos de alta calidad: saborizados, texturizados, con efecto delay & cooling o lubricados. Cuídate sin perder sensación.',
         features: ['Látex premium', 'Certificación Invima', 'Ultra sensible', 'Apto +18'],
       },
+      'juegos-mesa': {
+        label: '🎲 Juego erótico',
+        tagline: 'Rompe el hielo · dale picante a la noche',
+        desc: 'Juegos de mesa para parejas y grupos: dados, cartas, jenga, ruleta, triki y más. Diversión garantizada, retos calientes, sin pena.',
+        features: ['Para parejas', 'Retos hot', 'Calidad premium', 'Apto +18'],
+      },
     };
 
     /* Detecta sub-categoría del producto por su super-panel */

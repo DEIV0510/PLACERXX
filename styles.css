@@ -2219,6 +2219,10 @@ body.has-drawer-open { overflow: hidden; }
   color: var(--bg);
   box-shadow: 0 6px 24px rgba(255, 211, 51, 0.55);
 }
+.super-tab[data-super="juegos"].is-active {
+  background: linear-gradient(135deg, #ff3b6b, #d6114f);
+  box-shadow: 0 6px 24px rgba(255, 59, 107, 0.55);
+}
 
 /* SUPER PANELS */
 .super-panel {
