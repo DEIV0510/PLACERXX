@@ -168,6 +168,12 @@
         desc: 'Juegos de mesa para parejas y grupos: dados, cartas, jenga, ruleta, triki y más. Diversión garantizada, retos calientes, sin pena.',
         features: ['Para parejas', 'Retos hot', 'Calidad premium', 'Apto +18'],
       },
+      'nuevos-all': {
+        label: '🆕 Novedad',
+        tagline: 'Recién llegado · estrena lo último',
+        desc: 'Producto recién agregado al catálogo. Gomitas, vibradores y comestibles de la edición Vi King — ediciones limitadas y exclusivas.',
+        features: ['Edición exclusiva', 'Stock limitado', 'Premium', 'Apto +18'],
+      },
     };
 
     /* Detecta sub-categoría del producto por su super-panel */
@@ -222,6 +228,23 @@
         { v: 'Frutos Rojos', e: '🍓' },
       ],
       // ---- ESTRECHANTES ---- (ninguno muestra sabores en la imagen)
+      // ---- NUEVOS (productos Vi King con sabores) ----
+      'N04': [
+        { v: 'Frutos Rojos', e: '🍓' },
+        { v: 'Uva', e: '🍇' },
+        { v: 'Sandía', e: '🍉' },
+      ],
+      'N05': [
+        { v: 'Cherry', e: '🍒' },
+        { v: 'Manzana', e: '🍏' },
+        { v: 'Fresa', e: '🍓' },
+      ],
+      'N06': [
+        { v: 'Fresa', e: '🍓' },
+      ],
+      'N01': [
+        { v: 'Borojó & Chontaduro', e: '🌿' },
+      ],
       // ---- CONDONES ----
       'Ot09': [
         { v: 'Uva', e: '🍇' },
