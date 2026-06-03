@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const WA_NUMBER = '573000000000';
+  const WA_NUMBER = '573105955979';
 
   /* ========== AGE GATE ========== */
   const ageGate = document.getElementById('ageGate');
@@ -294,7 +294,7 @@
       if (flavor) lines.push(`• Sabor: ${flavor}`);
       lines.push(`• Cantidad: ${state.qty}`);
       lines.push(`• Total: ${formatCOP(state.unit * state.qty)}`);
-      els.cta.href = `https://wa.me/573000000000?text=${encodeURIComponent(lines.join('\n'))}`;
+      els.cta.href = `https://wa.me/573105955979?text=${encodeURIComponent(lines.join('\n'))}`;
     }
 
     function pickRecs(card) {
