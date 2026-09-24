@@ -4,12 +4,14 @@
     {
       "id": "lubricantes",
       "nombre": "Lubricantes",
+      "emoji": "💧",
       "icono": "gota",
       "intro": "Calor, frío, neutros, saborizados o híbridos: el lubricante para cada momento.",
       "subs": [
         {
           "id": "lubricantes",
-          "nombre": "Todos",
+          "nombre": "Lubricantes",
+          "emoji": "💧",
           "info": "lubricantes",
           "productos": [
             {
@@ -141,12 +143,14 @@
     {
       "id": "energizantes",
       "nombre": "Energizantes",
+      "emoji": "⚡",
       "icono": "rayo",
       "intro": "Energía y rendimiento para el encuentro. Elige según para quién es.",
       "subs": [
         {
           "id": "energizantes-hombre",
           "nombre": "Hombre",
+          "emoji": "👨",
           "info": "energizantes-hombre",
           "productos": [
             {
@@ -270,6 +274,7 @@
         {
           "id": "energizantes-mujer",
           "nombre": "Mujer",
+          "emoji": "👩",
           "info": "energizantes-mujer",
           "productos": [
             {
@@ -326,6 +331,7 @@
         {
           "id": "energizantes-unisex",
           "nombre": "Unisex",
+          "emoji": "👫",
           "info": "energizantes-unisex",
           "productos": [
             {
@@ -372,12 +378,14 @@
     {
       "id": "retardantes",
       "nombre": "Retardantes",
+      "emoji": "⏱",
       "icono": "reloj",
       "intro": "Más control y encuentros más largos, sin perder sensación.",
       "subs": [
         {
           "id": "retardantes",
           "nombre": "Retardantes",
+          "emoji": "⏱",
           "info": "retardantes",
           "productos": [
             {
@@ -440,6 +448,7 @@
         {
           "id": "engrosadores",
           "nombre": "Engrosadores",
+          "emoji": "💪",
           "info": "engrosadores",
           "productos": [
             {
@@ -469,12 +478,14 @@
     {
       "id": "sensaciones",
       "nombre": "Sensaciones",
+      "emoji": "💥",
       "icono": "chispa",
       "intro": "Multiorgásmicos y estrechantes para sentirlo todo.",
       "subs": [
         {
           "id": "multiorgasmos",
           "nombre": "Multiorgásmicos",
+          "emoji": "💥",
           "info": "multiorgasmos",
           "productos": [
             {
@@ -536,6 +547,7 @@
         {
           "id": "estrechantes",
           "nombre": "Estrechantes",
+          "emoji": "🔒",
           "info": "estrechantes",
           "productos": [
             {
@@ -575,12 +587,14 @@
     {
       "id": "ritual",
       "nombre": "Ritual",
+      "emoji": "🌹",
       "icono": "flor",
       "intro": "Cuidado íntimo, facial y corporal para crear el ambiente.",
       "subs": [
         {
           "id": "cuidado-intimo",
           "nombre": "Cuidado íntimo",
+          "emoji": "🌷",
           "info": "cuidado-intimo",
           "productos": [
             {
@@ -612,6 +626,7 @@
         {
           "id": "cuidado-facial",
           "nombre": "Cuidado facial",
+          "emoji": "✨",
           "info": "cuidado-facial",
           "productos": [
             {
@@ -637,6 +652,7 @@
         {
           "id": "cuerpo-masajes",
           "nombre": "Cuerpo y masajes",
+          "emoji": "🌹",
           "info": "cuerpo-masajes",
           "productos": [
             {
@@ -688,12 +704,14 @@
     {
       "id": "condones",
       "nombre": "Condones",
+      "emoji": "🍿",
       "icono": "escudo",
       "intro": "Protección con sensibilidad: saborizados, texturizados y más.",
       "subs": [
         {
           "id": "condones",
-          "nombre": "Todos",
+          "nombre": "Condones",
+          "emoji": "🍿",
           "info": "condones",
           "productos": [
             {
@@ -733,12 +751,14 @@
     {
       "id": "juegos",
       "nombre": "Juegos",
+      "emoji": "🎲",
       "icono": "dado",
       "intro": "Juegos para parejas y grupos: dados, cartas, retos y más.",
       "subs": [
         {
           "id": "juegos",
-          "nombre": "Todos",
+          "nombre": "Juegos de mesa",
+          "emoji": "🎲",
           "info": "juegos",
           "productos": [
             {
@@ -784,12 +804,14 @@
     {
       "id": "nuevos",
       "nombre": "Nuevos",
+      "emoji": "🆕",
       "icono": "estrella",
       "intro": "Lo último que llegó: gomitas, vibradores y comestibles.",
       "subs": [
         {
           "id": "nuevos",
-          "nombre": "Todos",
+          "nombre": "Novedades",
+          "emoji": "🆕",
           "info": "nuevos",
           "productos": [
             {
@@ -877,7 +899,7 @@
       ]
     },
     "energizantes-hombre": {
-      "etiqueta": "Energizante · Hombre",
+      "etiqueta": "Energizante",
       "para": "Hombre",
       "tagline": "Más energía y rendimiento para el encuentro.",
       "uso": "Tómalo según las indicaciones del empaque antes del encuentro.",
@@ -885,7 +907,7 @@
       "beneficio": "Más estamina y rendimiento físico."
     },
     "energizantes-mujer": {
-      "etiqueta": "Energizante · Mujer",
+      "etiqueta": "Energizante",
       "para": "Mujer",
       "tagline": "Despierta el deseo a tu ritmo.",
       "uso": "Úsalo según las indicaciones del empaque antes del encuentro.",
@@ -893,7 +915,7 @@
       "beneficio": "Más ganas y disfrute en pareja."
     },
     "energizantes-unisex": {
-      "etiqueta": "Energizante · Unisex",
+      "etiqueta": "Energizante",
       "para": "Hombre y mujer",
       "tagline": "Para los dos, para la misma noche.",
       "uso": "Tómalo según las indicaciones del empaque antes del encuentro.",

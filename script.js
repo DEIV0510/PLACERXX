@@ -5,6 +5,7 @@
   const WA = DATA.whatsapp;
   const POR_PAGINA = 8;
   const formatCOP = (n) => '$' + Number(n).toLocaleString('es-CO');
+  const escapar = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   /* ========== BLOQUEO DE SCROLL (cada capa pide y suelta el suyo) ========== */
   const bloqueos = new Set();
@@ -14,7 +15,7 @@
     if (!bloqueos.size) document.body.classList.remove('is-locked');
   };
 
-  /* ========== MAYORÍA DE EDAD ========== */
+  /* ========== AGE GATE ========== */
   const ageGate = document.getElementById('ageGate');
   const ageYes = document.getElementById('ageYes');
   const AGE_KEY = 'placerx-age-ok';
@@ -34,10 +35,10 @@
     abrirDesdeHash();
   });
 
-  /* ========== NAVEGACIÓN ========== */
+  /* ========== NAV ========== */
   const nav = document.getElementById('nav');
   const burger = document.getElementById('burger');
-  const onScroll = () => nav.classList.toggle('is-scrolled', window.scrollY > 24);
+  const onScroll = () => nav.classList.toggle('is-scrolled', window.scrollY > 40);
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
@@ -56,10 +57,10 @@
   });
   document.querySelectorAll('.nav-links a').forEach((a) => a.addEventListener('click', cerrarMenu));
 
-  /* ========== CATÁLOGO: CATEGORÍAS Y SUBCATEGORÍAS ========== */
-  const catTabs = Array.from(document.querySelectorAll('.cat-tab'));
-  const catPanels = Array.from(document.querySelectorAll('.cat-panel'));
-  const idsCategorias = catTabs.map((t) => t.dataset.cat);
+  /* ========== CATÁLOGO: SUPER-TABS Y SUB-TABS ========== */
+  const superTabs = Array.from(document.querySelectorAll('.super-tab'));
+  const superPanels = Array.from(document.querySelectorAll('.super-panel'));
+  const idsCategorias = superTabs.map((t) => t.dataset.super);
 
   function marcarTabs(tabs, activa) {
     tabs.forEach((t) => {
@@ -82,28 +83,32 @@
   }
 
   function activarCategoria(id) {
-    const tab = catTabs.find((t) => t.dataset.cat === id);
+    const tab = superTabs.find((t) => t.dataset.super === id);
     if (!tab) return;
-    marcarTabs(catTabs, tab);
-    catPanels.forEach((p) => {
-      const on = p.dataset.cat === id;
+    marcarTabs(superTabs, tab);
+    superPanels.forEach((p) => {
+      const on = p.dataset.super === id;
       p.classList.toggle('is-active', on);
       p.hidden = !on;
     });
-    tab.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    // en móvil las pestañas se deslizan: deja visible la activa sin mover la página
+    const fila = tab.parentElement;
+    if (fila.scrollWidth > fila.clientWidth) {
+      fila.scrollTo({ left: tab.offsetLeft - (fila.clientWidth - tab.offsetWidth) / 2, behavior: 'smooth' });
+    }
   }
 
   function irAlCatalogo(id) {
     activarCategoria(id);
     try { history.replaceState(null, '', '#' + id); } catch (e) {}
-    document.querySelector('.cat-tabs-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelector('.super-tabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  catTabs.forEach((t) => t.addEventListener('click', () => {
-    activarCategoria(t.dataset.cat);
-    try { history.replaceState(null, '', '#' + t.dataset.cat); } catch (e) {}
+  superTabs.forEach((t) => t.addEventListener('click', () => {
+    activarCategoria(t.dataset.super);
+    try { history.replaceState(null, '', '#' + t.dataset.super); } catch (e) {}
   }));
-  document.querySelectorAll('.cat-panel').forEach((panel) => {
+  superPanels.forEach((panel) => {
     panel.querySelectorAll('.sub-tab').forEach((st) => st.addEventListener('click', () => activarSub(panel, st.dataset.sub)));
   });
 
@@ -122,15 +127,7 @@
     });
   });
 
-  // degradado en el borde derecho mientras queden pestañas por deslizar
-  const tabsWrap = document.querySelector('.cat-tabs-wrap');
-  const tabsRow = document.querySelector('.cat-tabs');
-  const marcarMas = () => tabsWrap.classList.toggle('has-more', tabsRow.scrollLeft + tabsRow.clientWidth < tabsRow.scrollWidth - 4);
-  tabsRow.addEventListener('scroll', marcarMas, { passive: true });
-  window.addEventListener('resize', marcarMas);
-  marcarMas();
-
-  // enlaces a una categoría (menú, guía, pie)
+  // enlaces a una categoría (menú y guía rápida)
   document.querySelectorAll('a[data-cat]').forEach((a) => a.addEventListener('click', (e) => {
     e.preventDefault();
     irAlCatalogo(a.dataset.cat);
@@ -145,19 +142,20 @@
       cards.forEach((c, i) => { c.hidden = i >= visibles; });
       const faltan = cards.length - visibles;
       boton.hidden = faltan <= 0;
-      boton.textContent = `Ver más productos (${faltan})`;
+      boton.textContent = `Ver más productos (${faltan}) ↓`;
     };
     boton.addEventListener('click', () => {
       const primeraNueva = cards[visibles];
       visibles += POR_PAGINA;
       pintar();
-      if (primeraNueva) primeraNueva.querySelector('.pc-link').focus({ preventScroll: true });
+      if (primeraNueva) primeraNueva.querySelector('.pc-cta').focus({ preventScroll: true });
     });
     pintar();
   });
 
-  /* ========== PANEL DE PRODUCTO ========== */
+  /* ========== PRODUCT DRAWER ========== */
   const drawer = document.getElementById('productDrawer');
+  const card = drawer.querySelector('.drawer-card');
   const $ = (rol) => drawer.querySelector(`[data-role="${rol}"]`);
   const els = {
     img: $('img'), cat: $('cat'), para: $('para'), name: $('name'), code: $('code'), tagline: $('tagline'),
@@ -166,19 +164,17 @@
   };
   const estado = { card: null, qty: 1, precio: 0, ultimoFoco: null, cerrando: null };
 
-  const escapar = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-
   function pintarGuia(info) {
     if (info.uso) {
-      els.guia.innerHTML = `<span class="drawer-label">Cómo se usa</span>
+      els.guia.innerHTML = `<span class="drawer-label">📖 Cómo se usa</span>
         <dl class="drawer-guia">
           <div><dt>Uso</dt><dd>${escapar(info.uso)}</dd></div>
           <div><dt>Efecto</dt><dd>${escapar(info.efecto)}</dd></div>
           <div><dt>Beneficio</dt><dd>${escapar(info.beneficio)}</dd></div>
         </dl>`;
     } else {
-      const feats = (info.features || []).map((f) => `<li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>${escapar(f)}</li>`).join('');
-      els.guia.innerHTML = `<span class="drawer-label">Sobre este producto</span>
+      const feats = (info.features || []).map((f) => `<li>✓ ${escapar(f)}</li>`).join('');
+      els.guia.innerHTML = `<span class="drawer-label">📖 Sobre este producto</span>
         <p class="drawer-desc">${escapar(info.desc || '')}</p>
         ${feats ? `<ul class="drawer-features">${feats}</ul>` : ''}`;
     }
@@ -198,20 +194,20 @@
   }
 
   function actualizarPedido() {
-    const c = estado.card.dataset;
+    const d = estado.card.dataset;
     const total = estado.precio * estado.qty;
     els.qty.textContent = String(estado.qty);
     els.price.textContent = formatCOP(total);
-    const lineas = ['Hola PLACER X, quiero hacer este pedido:', `• ${c.name} (cód. ${c.code})`];
+    const lineas = ['Hola PLACERX, quiero pedir 🔥', `• ${d.name} (cód. ${d.code})`];
     const sabor = saborElegido();
     if (sabor) lineas.push(`• Sabor: ${sabor}`);
     lineas.push(`• Cantidad: ${estado.qty}`, `• Total: ${formatCOP(total)}`);
     els.cta.href = `https://wa.me/${WA}?text=${encodeURIComponent(lineas.join('\n'))}`;
   }
 
-  function pintarRecomendados(card) {
-    const panel = card.closest('.cat-panel');
-    const vistos = new Set([card.dataset.code]);
+  function pintarRecomendados(tarjeta) {
+    const panel = tarjeta.closest('.super-panel');
+    const vistos = new Set([tarjeta.dataset.code]);
     const pool = [];
     panel.querySelectorAll('.pc').forEach((p) => {
       if (vistos.has(p.dataset.code)) return;
@@ -224,17 +220,19 @@
     }
     els.recs.innerHTML = pool.slice(0, 4).map((p) => `
       <button class="drawer-rec" type="button" data-rec-code="${escapar(p.dataset.code)}">
-        <img src="${escapar(p.dataset.img)}" alt="" width="720" height="540" loading="lazy" />
-        <span class="drawer-rec-name">${escapar(p.dataset.name)}</span>
-        <span class="drawer-rec-price">${formatCOP(p.dataset.price)}</span>
+        <div class="drawer-rec-img"><img src="${escapar(p.dataset.img)}" alt="" width="720" height="540" loading="lazy" /></div>
+        <div class="drawer-rec-body">
+          <p class="drawer-rec-name">${escapar(p.dataset.name)}</p>
+          <span class="drawer-rec-price">${formatCOP(p.dataset.price)}</span>
+        </div>
       </button>`).join('');
   }
 
-  function abrirProducto(card) {
-    if (!card) return;
-    const d = card.dataset;
+  function abrirProducto(tarjeta) {
+    if (!tarjeta) return;
+    const d = tarjeta.dataset;
     const info = DATA.info[d.sub] || {};
-    estado.card = card;
+    estado.card = tarjeta;
     estado.qty = 1;
     estado.precio = Number(d.price);
     if (!drawer.classList.contains('is-open')) estado.ultimoFoco = document.activeElement;
@@ -248,35 +246,37 @@
     els.tagline.textContent = info.tagline || '';
     pintarGuia(info);
     pintarSabores(d.code);
-    pintarRecomendados(card);
+    pintarRecomendados(tarjeta);
     actualizarPedido();
 
     clearTimeout(estado.cerrando);
     drawer.hidden = false;
-    void drawer.offsetWidth; // fuerza el reflow para que la transición arranque sin depender de rAF
+    void drawer.offsetWidth; // reflow para que la transición arranque sin depender de rAF
     drawer.classList.add('is-open');
-    document.body.classList.add('has-drawer');
     bloquear('panel');
-    drawer.querySelector('.drawer-scroll').scrollTop = 0;
+    card.scrollTop = 0;
     drawer.querySelector('.drawer-close').focus({ preventScroll: true });
   }
 
   function cerrarProducto() {
     if (!drawer.classList.contains('is-open')) return;
     drawer.classList.remove('is-open');
-    document.body.classList.remove('has-drawer');
     desbloquear('panel');
-    estado.cerrando = setTimeout(() => { drawer.hidden = true; }, 340);
+    estado.cerrando = setTimeout(() => { drawer.hidden = true; }, 360);
     if (estado.ultimoFoco && document.contains(estado.ultimoFoco)) estado.ultimoFoco.focus({ preventScroll: true });
   }
 
   const tarjetaPorCodigo = (code) => document.querySelector(`.pc[data-code="${CSS.escape(code)}"]`);
 
+  // Click en cualquier parte de la tarjeta → abre el panel (sin JS, «Ver más» va a WhatsApp)
   document.addEventListener('click', (e) => {
-    const link = e.target.closest('.pc-link');
-    if (link) {
-      e.preventDefault();
-      abrirProducto(link.closest('.pc'));
+    const rec = e.target.closest('.drawer-rec');
+    if (rec) {
+      abrirProducto(tarjetaPorCodigo(rec.dataset.recCode));
+      return;
+    }
+    if (e.target.closest('[data-close]')) {
+      cerrarProducto();
       return;
     }
     const abrir = e.target.closest('[data-open-code]');
@@ -284,12 +284,11 @@
       abrirProducto(tarjetaPorCodigo(abrir.dataset.openCode));
       return;
     }
-    const rec = e.target.closest('.drawer-rec');
-    if (rec) {
-      abrirProducto(tarjetaPorCodigo(rec.dataset.recCode));
-      return;
+    const tarjeta = e.target.closest('.pc');
+    if (tarjeta && !e.target.closest('.drawer')) {
+      e.preventDefault();
+      abrirProducto(tarjeta);
     }
-    if (e.target.closest('[data-close]')) cerrarProducto();
   });
 
   drawer.querySelectorAll('.drawer-qty-btn').forEach((btn) => btn.addEventListener('click', () => {
@@ -342,15 +341,28 @@
     if (!hash) return;
     if (idsCategorias.includes(hash)) {
       activarCategoria(hash);
-      document.querySelector('.cat-tabs-wrap').scrollIntoView({ block: 'start' });
+      document.querySelector('.super-tabs').scrollIntoView({ block: 'start' });
     } else if (hash.startsWith('producto-')) {
-      const card = tarjetaPorCodigo(hash.slice(9));
-      if (card) {
-        activarCategoria(card.closest('.cat-panel').dataset.cat);
-        abrirProducto(card);
+      const tarjeta = tarjetaPorCodigo(hash.slice(9));
+      if (tarjeta) {
+        activarCategoria(tarjeta.closest('.super-panel').dataset.super);
+        abrirProducto(tarjeta);
       }
     }
   }
   if (edadOk) abrirDesdeHash();
   window.addEventListener('hashchange', () => { if (ageGate.classList.contains('is-hidden')) abrirDesdeHash(); });
+
+  /* ========== HERO PARALLAX (solo escritorio) ========== */
+  const heroProduct = document.querySelector('.hero-product');
+  const heroSign = document.querySelector('.hero-sign');
+  const conMovimiento = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (heroProduct && conMovimiento && window.matchMedia('(min-width: 1024px) and (hover: hover)').matches) {
+    window.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+      heroProduct.style.transform = `translate(${x * 10}px, ${y * 10}px)`;
+      if (heroSign) heroSign.style.transform = `rotate(-6deg) translate(${x * -14}px, ${y * -8}px)`;
+    }, { passive: true });
+  }
 })();
