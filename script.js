@@ -1,631 +1,356 @@
 (() => {
   'use strict';
 
-  const WA_NUMBER = '573105955979';
+  const DATA = JSON.parse(document.getElementById('catalogo-data').textContent);
+  const WA = DATA.whatsapp;
+  const POR_PAGINA = 8;
+  const formatCOP = (n) => '$' + Number(n).toLocaleString('es-CO');
 
-  /* ========== AGE GATE ========== */
+  /* ========== BLOQUEO DE SCROLL (cada capa pide y suelta el suyo) ========== */
+  const bloqueos = new Set();
+  const bloquear = (quien) => { bloqueos.add(quien); document.body.classList.add('is-locked'); };
+  const desbloquear = (quien) => {
+    bloqueos.delete(quien);
+    if (!bloqueos.size) document.body.classList.remove('is-locked');
+  };
+
+  /* ========== MAYORÍA DE EDAD ========== */
   const ageGate = document.getElementById('ageGate');
   const ageYes = document.getElementById('ageYes');
   const AGE_KEY = 'placerx-age-ok';
+  let edadOk = false;
+  try { edadOk = sessionStorage.getItem(AGE_KEY) === '1'; } catch (e) {}
 
-  try {
-    if (sessionStorage.getItem(AGE_KEY) === '1') {
-      ageGate && ageGate.classList.add('is-hidden');
-    }
-  } catch (e) {}
-
-  ageYes && ageYes.addEventListener('click', () => {
+  if (edadOk) {
+    ageGate.classList.add('is-hidden');
+  } else {
+    bloquear('edad');
+    ageYes.focus();
+  }
+  ageYes.addEventListener('click', () => {
     try { sessionStorage.setItem(AGE_KEY, '1'); } catch (e) {}
     ageGate.classList.add('is-hidden');
+    desbloquear('edad');
+    abrirDesdeHash();
   });
 
-  /* ========== NAV SCROLL STATE ========== */
+  /* ========== NAVEGACIÓN ========== */
   const nav = document.getElementById('nav');
-  const onScroll = () => {
-    if (!nav) return;
-    if (window.scrollY > 40) nav.classList.add('is-scrolled');
-    else nav.classList.remove('is-scrolled');
-  };
+  const burger = document.getElementById('burger');
+  const onScroll = () => nav.classList.toggle('is-scrolled', window.scrollY > 24);
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* ========== MOBILE BURGER ========== */
-  const burger = document.getElementById('burger');
-  burger && burger.addEventListener('click', () => {
-    nav.classList.toggle('is-open');
+  const cerrarMenu = () => {
+    nav.classList.remove('is-open');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.setAttribute('aria-label', 'Abrir menú');
+  };
+  burger.addEventListener('click', () => {
+    const abierto = nav.classList.toggle('is-open');
+    burger.setAttribute('aria-expanded', String(abierto));
+    burger.setAttribute('aria-label', abierto ? 'Cerrar menú' : 'Abrir menú');
   });
-  document.querySelectorAll('.nav-links a').forEach(a => {
-    a.addEventListener('click', () => nav.classList.remove('is-open'));
+  document.addEventListener('click', (e) => {
+    if (nav.classList.contains('is-open') && !nav.contains(e.target)) cerrarMenu();
   });
+  document.querySelectorAll('.nav-links a').forEach((a) => a.addEventListener('click', cerrarMenu));
 
-  /* ========== PAGINATOR (8 productos por página) ========== */
-  const PER_PAGE = 8;
-  document.querySelectorAll('.sub-panel .pc-grid').forEach(grid => {
-    const cards = Array.from(grid.querySelectorAll('.pc'));
-    if (cards.length <= PER_PAGE) return;
+  /* ========== CATÁLOGO: CATEGORÍAS Y SUBCATEGORÍAS ========== */
+  const catTabs = Array.from(document.querySelectorAll('.cat-tab'));
+  const catPanels = Array.from(document.querySelectorAll('.cat-panel'));
+  const idsCategorias = catTabs.map((t) => t.dataset.cat);
 
-    const totalPages = Math.ceil(cards.length / PER_PAGE);
-    cards.forEach((card, i) => {
-      card.dataset.page = String(Math.floor(i / PER_PAGE) + 1);
+  function marcarTabs(tabs, activa) {
+    tabs.forEach((t) => {
+      const on = t === activa;
+      t.classList.toggle('is-active', on);
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
     });
+  }
 
-    const pager = document.createElement('div');
-    pager.className = 'pc-pager';
-    for (let p = 1; p <= totalPages; p++) {
-      if (p > 1) {
-        const dot = document.createElement('span');
-        dot.className = 'pc-pager-dot';
-        dot.textContent = '·';
-        pager.appendChild(dot);
-      }
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'pc-page-btn' + (p === 1 ? ' is-active' : '');
-      btn.dataset.page = String(p);
-      btn.textContent = String(p);
-      pager.appendChild(btn);
-    }
-    grid.parentNode.insertBefore(pager, grid.nextSibling);
+  function activarSub(panel, subId) {
+    const tabs = Array.from(panel.querySelectorAll('.sub-tab'));
+    const destino = tabs.find((t) => t.dataset.sub === subId);
+    if (destino) marcarTabs(tabs, destino);
+    panel.querySelectorAll('.sub-panel').forEach((p) => {
+      const on = p.dataset.sub === subId;
+      p.classList.toggle('is-active', on);
+      p.hidden = !on;
+    });
+  }
 
-    const setPage = (p) => {
-      const pStr = String(p);
-      cards.forEach(card => {
-        card.style.display = (card.dataset.page === pStr) ? '' : 'none';
-      });
-      pager.querySelectorAll('.pc-page-btn').forEach(b =>
-        b.classList.toggle('is-active', b.dataset.page === pStr)
-      );
-      grid.scrollLeft = 0;
+  function activarCategoria(id) {
+    const tab = catTabs.find((t) => t.dataset.cat === id);
+    if (!tab) return;
+    marcarTabs(catTabs, tab);
+    catPanels.forEach((p) => {
+      const on = p.dataset.cat === id;
+      p.classList.toggle('is-active', on);
+      p.hidden = !on;
+    });
+    tab.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  }
+
+  function irAlCatalogo(id) {
+    activarCategoria(id);
+    try { history.replaceState(null, '', '#' + id); } catch (e) {}
+    document.querySelector('.cat-tabs-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  catTabs.forEach((t) => t.addEventListener('click', () => {
+    activarCategoria(t.dataset.cat);
+    try { history.replaceState(null, '', '#' + t.dataset.cat); } catch (e) {}
+  }));
+  document.querySelectorAll('.cat-panel').forEach((panel) => {
+    panel.querySelectorAll('.sub-tab').forEach((st) => st.addEventListener('click', () => activarSub(panel, st.dataset.sub)));
+  });
+
+  // flechas del teclado dentro de cada fila de pestañas
+  document.querySelectorAll('[role="tablist"]').forEach((lista) => {
+    lista.addEventListener('keydown', (e) => {
+      if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(e.key)) return;
+      const tabs = Array.from(lista.querySelectorAll('[role="tab"]'));
+      const i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      e.preventDefault();
+      const j = e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1
+        : (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+      tabs[j].focus();
+      tabs[j].click();
+    });
+  });
+
+  // degradado en el borde derecho mientras queden pestañas por deslizar
+  const tabsWrap = document.querySelector('.cat-tabs-wrap');
+  const tabsRow = document.querySelector('.cat-tabs');
+  const marcarMas = () => tabsWrap.classList.toggle('has-more', tabsRow.scrollLeft + tabsRow.clientWidth < tabsRow.scrollWidth - 4);
+  tabsRow.addEventListener('scroll', marcarMas, { passive: true });
+  window.addEventListener('resize', marcarMas);
+  marcarMas();
+
+  // enlaces a una categoría (menú, guía, pie)
+  document.querySelectorAll('a[data-cat]').forEach((a) => a.addEventListener('click', (e) => {
+    e.preventDefault();
+    irAlCatalogo(a.dataset.cat);
+  }));
+
+  /* ========== «VER MÁS» EN CADA LISTA ========== */
+  document.querySelectorAll('.sub-panel').forEach((sub) => {
+    const cards = Array.from(sub.querySelectorAll('.pc'));
+    const boton = sub.querySelector('.ver-mas');
+    let visibles = POR_PAGINA;
+    const pintar = () => {
+      cards.forEach((c, i) => { c.hidden = i >= visibles; });
+      const faltan = cards.length - visibles;
+      boton.hidden = faltan <= 0;
+      boton.textContent = `Ver más productos (${faltan})`;
     };
-
-    pager.addEventListener('click', (e) => {
-      const btn = e.target.closest('.pc-page-btn');
-      if (btn) setPage(btn.dataset.page);
+    boton.addEventListener('click', () => {
+      const primeraNueva = cards[visibles];
+      visibles += POR_PAGINA;
+      pintar();
+      if (primeraNueva) primeraNueva.querySelector('.pc-link').focus({ preventScroll: true });
     });
-    setPage(1);
+    pintar();
   });
 
-  /* ========== PRODUCT DRAWER (modal con qty, sabor, recomendados) ========== */
+  /* ========== PANEL DE PRODUCTO ========== */
   const drawer = document.getElementById('productDrawer');
-  if (drawer) initDrawer();
+  const $ = (rol) => drawer.querySelector(`[data-role="${rol}"]`);
+  const els = {
+    img: $('img'), cat: $('cat'), para: $('para'), name: $('name'), code: $('code'), tagline: $('tagline'),
+    guia: $('guia'), flavorsSection: $('flavors-section'), flavors: $('flavors'),
+    qty: $('qty'), price: $('price'), cta: $('cta'), recs: $('recs'),
+  };
+  const estado = { card: null, qty: 1, precio: 0, ultimoFoco: null, cerrando: null };
 
-  function initDrawer() {
-    const els = {
-      img: drawer.querySelector('[data-role="img"]'),
-      code: drawer.querySelector('[data-role="code"]'),
-      name: drawer.querySelector('[data-role="name"]'),
-      price: drawer.querySelector('[data-role="price"]'),
-      qty: drawer.querySelector('[data-role="qty"]'),
-      cta: drawer.querySelector('[data-role="cta"]'),
-      tagline: drawer.querySelector('[data-role="tagline"]'),
-      cat: drawer.querySelector('[data-role="cat"]'),
-      desc: drawer.querySelector('[data-role="desc"]'),
-      features: drawer.querySelector('[data-role="features"]'),
-      flavorsSection: drawer.querySelector('[data-role="flavors-section"]'),
-      flavors: drawer.querySelector('[data-role="flavors"]'),
-      recs: drawer.querySelector('[data-role="recs"]'),
-    };
+  const escapar = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-    /* Info por subcategoría: label + descripción + features + tagline */
-    const CAT_INFO = {
-      potenciadores: {
-        label: '⚡ Potenciador',
-        tagline: 'Para llegar con todo · sin perder el ritmo',
-        desc: 'Potenciador masculino/femenino de acción rápida que aumenta la libido, la resistencia y la firmeza. Ideal para esas noches donde quieres ir con todo y aguantar más.',
-        features: ['Acción en 20–30 min', 'Duración 4–6 horas', 'Sin perder sensación', 'Apto +18'],
-      },
-      retardantes: {
-        label: '⏱ Retardante',
-        tagline: 'Aguanta más · sin perder sensación',
-        desc: 'Producto para el control de la eyaculación. Permite prolongar el placer sin perder sensibilidad ni anestesiar la zona. Aplicación discreta minutos antes.',
-        features: ['Efecto +30 min', 'No adormece', 'Compatible con condón', 'Apto +18'],
-      },
-      multiorgasmos: {
-        label: '💥 Multiorgásmico',
-        tagline: 'Para sentir 5 veces más · y volver a empezar',
-        desc: 'Gel/elixir estimulante que multiplica la sensibilidad de las zonas íntimas. Provoca múltiples orgasmos en una sola noche con sensación electrizante.',
-        features: ['Aumenta sensibilidad', 'Sensación frío/calor', 'Múltiples orgasmos', 'Apto +18'],
-      },
-      estrechantes: {
-        label: '🔒 Estrechante',
-        tagline: 'Recupera la firmeza · siéntelo todo',
-        desc: 'Gel femenino que contrae las paredes vaginales para una sensación de mayor ajuste y firmeza. Sensación natural, sin químicos agresivos.',
-        features: ['Sensación primera vez', 'Aplicación íntima', 'Apto +18'],
-      },
-      'cuidado-intimo': {
-        label: '🌷 Cuidado íntimo',
-        tagline: 'Tu zona merece lo mejor · cuídala bonito',
-        desc: 'Línea de cuidado íntimo: despigmentantes, desodorantes y limpiadores formulados con ingredientes seguros para la piel más delicada.',
-        features: ['pH balanceado', 'Sin parabenos', 'Uso diario', 'Resultados visibles'],
-      },
-      'cuidado-facial': {
-        label: '✨ Cuidado facial',
-        tagline: 'Realza tu atractivo · sin esfuerzo',
-        desc: 'Brillos labiales y productos faciales con feromonas que potencian tu encanto natural. Acabado seductor con un toque sutil de magnetismo.',
-        features: ['Con feromonas', 'Larga duración', 'Aroma irresistible'],
-      },
-      'cuerpo-masajes': {
-        label: '🌹 Cuerpo y masajes',
-        tagline: 'Crea el ambiente · sin decir una palabra',
-        desc: 'Aceites, velas y splash con feromonas para masajes sensuales y ambiente íntimo. Activa el deseo desde el primer contacto.',
-        features: ['Con feromonas', 'Apto para piel', 'Aroma envolvente'],
-      },
-      lubricantes: {
-        label: '💧 Lubricante',
-        tagline: 'Para que todo fluya · sin pausa',
-        desc: 'Lubricante íntimo base agua con efectos especiales: caliente, frío, neutro o saborizado. Sensación natural, no pega, compatible con condón.',
-        features: ['Base agua', 'No pega ni mancha', 'Compatible con condón', 'Apto +18'],
-      },
-      'condones-all': {
-        label: '🍿 Condón',
-        tagline: 'Protección con placer · sin sacrificar nada',
-        desc: 'Preservativos de alta calidad: saborizados, texturizados, con efecto delay & cooling o lubricados. Cuídate sin perder sensación.',
-        features: ['Látex premium', 'Certificación Invima', 'Ultra sensible', 'Apto +18'],
-      },
-      'juegos-mesa': {
-        label: '🎲 Juego erótico',
-        tagline: 'Rompe el hielo · dale picante a la noche',
-        desc: 'Juegos de mesa para parejas y grupos: dados, cartas, jenga, ruleta, triki y más. Diversión garantizada, retos calientes, sin pena.',
-        features: ['Para parejas', 'Retos hot', 'Calidad premium', 'Apto +18'],
-      },
-      'nuevos-all': {
-        label: '🆕 Novedad',
-        tagline: 'Recién llegado · estrena lo último',
-        desc: 'Producto recién agregado al catálogo. Gomitas, vibradores y comestibles de la edición Vi King — ediciones limitadas y exclusivas.',
-        features: ['Edición exclusiva', 'Stock limitado', 'Premium', 'Apto +18'],
-      },
-    };
-
-    /* Detecta sub-categoría del producto por su super-panel */
-    function getCatInfo(card) {
-      const subPanel = card.closest('.sub-panel');
-      const sub = subPanel ? subPanel.dataset.sub : null;
-      if (sub && CAT_INFO[sub]) return CAT_INFO[sub];
-      // Lubricantes legacy
-      if (sub && sub.indexOf('lubricantes') === 0) return CAT_INFO.lubricantes;
-      return CAT_INFO.potenciadores;
+  function pintarGuia(info) {
+    if (info.uso) {
+      els.guia.innerHTML = `<span class="drawer-label">Cómo se usa</span>
+        <dl class="drawer-guia">
+          <div><dt>Uso</dt><dd>${escapar(info.uso)}</dd></div>
+          <div><dt>Efecto</dt><dd>${escapar(info.efecto)}</dd></div>
+          <div><dt>Beneficio</dt><dd>${escapar(info.beneficio)}</dd></div>
+        </dl>`;
+    } else {
+      const feats = (info.features || []).map((f) => `<li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>${escapar(f)}</li>`).join('');
+      els.guia.innerHTML = `<span class="drawer-label">Sobre este producto</span>
+        <p class="drawer-desc">${escapar(info.desc || '')}</p>
+        ${feats ? `<ul class="drawer-features">${feats}</ul>` : ''}`;
     }
-
-    /* Sabores específicos por producto (leídos de cada imagen) */
-    const PRODUCT_FLAVORS = {
-      // ---- LUBRICANTES (4 con sabores) ----
-      'Lu01': [
-        { v: 'Caramelo', e: '🍯' },
-        { v: 'Chocolate', e: '🍫' },
-        { v: 'Crema de Whisky', e: '🥃' },
-        { v: 'Lychee', e: '🍒' },
-      ],
-      'Lu04': [
-        { v: 'Chocolate', e: '🍫' },
-        { v: 'Caramelo', e: '🍯' },
-        { v: 'Café Moka', e: '☕' },
-        { v: 'Crema de Whisky', e: '🥃' },
-      ],
-      'Lu33': [
-        { v: 'Fresa', e: '🍓' },
-        { v: 'Frambuesa', e: '🫐' },
-        { v: 'Cereza', e: '🍒' },
-        { v: 'Uva', e: '🍇' },
-        { v: 'Chocolate Picante', e: '🌶️' },
-      ],
-      'Lu41': [
-        { v: 'Chicle', e: '🩷' },
-        { v: 'Sandía', e: '🍉' },
-        { v: 'Fresa Bombón', e: '🍓' },
-        { v: 'Crema de Whisky', e: '🥃' },
-      ],
-      // ---- MULTIORGÁSMICOS ----
-      'M01': [
-        { v: 'Lychee', e: '🍒' },
-        { v: 'Tequila', e: '🥃' },
-        { v: 'Crema de Whisky', e: '🥃' },
-        { v: 'Mango', e: '🥭' },
-      ],
-      // ---- BRILLOS LABIALES ----
-      'F05': [{ v: 'Frutos Rojos', e: '🍓' }],
-      'F07': [
-        { v: 'Sandía', e: '🍉' },
-        { v: 'Frutos Rojos', e: '🍓' },
-      ],
-      // ---- ESTRECHANTES ---- (ninguno muestra sabores en la imagen)
-      // ---- NUEVOS (productos Vi King con sabores) ----
-      'N04': [
-        { v: 'Frutos Rojos', e: '🍓' },
-        { v: 'Uva', e: '🍇' },
-        { v: 'Sandía', e: '🍉' },
-      ],
-      'N05': [
-        { v: 'Cherry', e: '🍒' },
-        { v: 'Manzana', e: '🍏' },
-        { v: 'Fresa', e: '🍓' },
-      ],
-      'N06': [
-        { v: 'Fresa', e: '🍓' },
-      ],
-      'N01': [
-        { v: 'Borojó & Chontaduro', e: '🌿' },
-      ],
-      // ---- CONDONES ----
-      'Ot09': [
-        { v: 'Uva', e: '🍇' },
-        { v: 'Chocolate', e: '🍫' },
-        { v: 'Manzana', e: '🍏' },
-        { v: 'Frutos Rojos', e: '🍓' },
-        { v: 'Cereza', e: '🍒' },
-      ],
-    };
-
-    function getFlavors(code) {
-      return PRODUCT_FLAVORS[code] || null;
-    }
-
-    let state = { qty: 1, unit: 0, currentCard: null };
-
-    const formatCOP = n => '$' + Number(n).toLocaleString('es-CO');
-
-    function renderFlavors(code) {
-      const list = getFlavors(code);
-      if (!list) {
-        els.flavors.innerHTML = '';
-        return false;
-      }
-      els.flavors.innerHTML = list
-        .map((f, i) => `<button class="drawer-chip${i === 0 ? ' is-active' : ''}" data-flavor="${f.v}">${f.e} ${f.v}</button>`)
-        .join('');
-      return true;
-    }
-
-    function getActiveFlavor() {
-      if (els.flavorsSection.hasAttribute('hidden')) return null;
-      const chip = drawer.querySelector('.drawer-chip.is-active');
-      return chip ? chip.dataset.flavor : null;
-    }
-
-    function updateTotal() {
-      els.price.textContent = formatCOP(state.unit * state.qty);
-    }
-
-    function buildCTA() {
-      const name = els.name.textContent;
-      const code = els.code.textContent;
-      const flavor = getActiveFlavor();
-      const lines = [`Hola PLACERX, quiero pedir 🔥`];
-      lines.push(`• ${name} (cód. ${code})`);
-      if (flavor) lines.push(`• Sabor: ${flavor}`);
-      lines.push(`• Cantidad: ${state.qty}`);
-      lines.push(`• Total: ${formatCOP(state.unit * state.qty)}`);
-      els.cta.href = `https://wa.me/573105955979?text=${encodeURIComponent(lines.join('\n'))}`;
-    }
-
-    function pickRecs(card) {
-      const superPanel = card.closest('.super-panel');
-      const pool = superPanel
-        ? Array.from(superPanel.querySelectorAll('.pc')).filter(p => p !== card)
-        : Array.from(document.querySelectorAll('.pc')).filter(p => p !== card);
-      // Shuffle
-      for (let i = pool.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [pool[i], pool[j]] = [pool[j], pool[i]];
-      }
-      return pool.slice(0, 4);
-    }
-
-    function renderRecs(card) {
-      const recs = pickRecs(card);
-      els.recs.innerHTML = recs.map(r => {
-        const img = r.querySelector('.pc-img img');
-        const name = r.querySelector('.pc-name').textContent;
-        const price = r.querySelector('.pc-price').textContent;
-        const code = r.dataset.code;
-        return `<button class="drawer-rec" data-rec-code="${code}">
-          <div class="drawer-rec-img"><img src="${img.src}" alt="" loading="lazy" /></div>
-          <div class="drawer-rec-body">
-            <p class="drawer-rec-name">${name}</p>
-            <span class="drawer-rec-price">${price}</span>
-          </div>
-        </button>`;
-      }).join('');
-    }
-
-    function openDrawer(card) {
-      state.currentCard = card;
-      const code = card.dataset.code;
-      const name = card.querySelector('.pc-name').textContent;
-      const priceText = card.querySelector('.pc-price').textContent;
-      const unit = Number(priceText.replace(/[^\d]/g, ''));
-      const imgEl = card.querySelector('.pc-img img');
-      const info = getCatInfo(card);
-
-      els.code.textContent = code;
-      els.name.textContent = name;
-      els.img.src = imgEl.src;
-      els.img.alt = name;
-      els.tagline.textContent = info.tagline;
-      els.cat.textContent = info.label;
-      els.desc.textContent = info.desc;
-      els.features.innerHTML = info.features.map(f => `<li>✓ ${f}</li>`).join('');
-
-      state.unit = unit;
-      state.qty = 1;
-      els.qty.textContent = '1';
-
-      // Mostrar/ocultar sabores según el código
-      const hasFlav = renderFlavors(code);
-      if (hasFlav) {
-        els.flavorsSection.removeAttribute('hidden');
-      } else {
-        els.flavorsSection.setAttribute('hidden', '');
-      }
-
-      updateTotal();
-      buildCTA();
-      renderRecs(card);
-
-      drawer.classList.add('is-open');
-      drawer.setAttribute('aria-hidden', 'false');
-      document.body.classList.add('has-drawer-open');
-      // Reset scroll
-      const card_el = drawer.querySelector('.drawer-card');
-      if (card_el) card_el.scrollTop = 0;
-    }
-
-    function closeDrawer() {
-      drawer.classList.remove('is-open');
-      drawer.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('has-drawer-open');
-    }
-
-    // Click en cualquier parte de la card del catálogo → abre drawer
-    document.addEventListener('click', (e) => {
-      // Si clickea una rec dentro del drawer → cambiar al producto recomendado
-      const rec = e.target.closest('.drawer-rec');
-      if (rec) {
-        const code = rec.dataset.recCode;
-        const target = document.querySelector('.pc[data-code="' + code + '"]');
-        if (target) openDrawer(target);
-        return;
-      }
-      // Cerrar drawer
-      if (e.target.matches('[data-close]')) {
-        closeDrawer();
-        return;
-      }
-      // Card del catálogo (cualquier punto)
-      const card = e.target.closest('.pc');
-      if (card && !e.target.closest('.drawer')) {
-        e.preventDefault();
-        openDrawer(card);
-      }
-    });
-
-    // Qty buttons
-    drawer.querySelectorAll('.drawer-qty-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (btn.dataset.q === 'plus') state.qty = Math.min(state.qty + 1, 99);
-        else state.qty = Math.max(state.qty - 1, 1);
-        els.qty.textContent = String(state.qty);
-        updateTotal();
-        buildCTA();
-      });
-    });
-
-    // Flavor chips (delegation)
-    els.flavors.addEventListener('click', (e) => {
-      const chip = e.target.closest('.drawer-chip');
-      if (!chip) return;
-      drawer.querySelectorAll('.drawer-chip').forEach(c => c.classList.remove('is-active'));
-      chip.classList.add('is-active');
-      buildCTA();
-    });
-
-    // Cerrar con ESC
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && drawer.classList.contains('is-open')) closeDrawer();
-    });
   }
 
-  /* ========== CATALOG 2-LEVEL TABS (3 super × 7 sub) ========== */
-  const superTabs   = document.querySelectorAll('.super-tab');
-  const superPanels = document.querySelectorAll('.super-panel');
-
-  function activateSuper(target) {
-    if (!target) return;
-    superTabs.forEach(t => t.classList.toggle('is-active', t.dataset.super === target));
-    superPanels.forEach(p => p.classList.toggle('is-active', p.dataset.super === target));
+  function pintarSabores(code) {
+    const lista = DATA.sabores[code];
+    els.flavorsSection.hidden = !lista;
+    els.flavors.innerHTML = (lista || []).map((s, i) =>
+      `<button class="drawer-chip" type="button" role="radio" aria-checked="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-flavor="${escapar(s)}">${escapar(s)}</button>`).join('');
   }
-  superTabs.forEach(tab => {
-    tab.addEventListener('click', () => activateSuper(tab.dataset.super));
-  });
 
-  /* Sub-tabs are scoped to their parent super-panel */
-  document.querySelectorAll('.super-panel').forEach(superPanel => {
-    const subTabs   = superPanel.querySelectorAll(':scope > .sub-tabs .sub-tab');
-    const subPanels = superPanel.querySelectorAll(':scope > .sub-panel');
-    subTabs.forEach(st => {
-      st.addEventListener('click', () => {
-        subTabs.forEach(t => t.classList.toggle('is-active', t === st));
-        subPanels.forEach(p => p.classList.toggle('is-active', p.dataset.sub === st.dataset.sub));
-      });
+  function saborElegido() {
+    if (els.flavorsSection.hidden) return null;
+    const chip = els.flavors.querySelector('[aria-checked="true"]');
+    return chip ? chip.dataset.flavor : null;
+  }
+
+  function actualizarPedido() {
+    const c = estado.card.dataset;
+    const total = estado.precio * estado.qty;
+    els.qty.textContent = String(estado.qty);
+    els.price.textContent = formatCOP(total);
+    const lineas = ['Hola PLACER X, quiero hacer este pedido:', `• ${c.name} (cód. ${c.code})`];
+    const sabor = saborElegido();
+    if (sabor) lineas.push(`• Sabor: ${sabor}`);
+    lineas.push(`• Cantidad: ${estado.qty}`, `• Total: ${formatCOP(total)}`);
+    els.cta.href = `https://wa.me/${WA}?text=${encodeURIComponent(lineas.join('\n'))}`;
+  }
+
+  function pintarRecomendados(card) {
+    const panel = card.closest('.cat-panel');
+    const vistos = new Set([card.dataset.code]);
+    const pool = [];
+    panel.querySelectorAll('.pc').forEach((p) => {
+      if (vistos.has(p.dataset.code)) return;
+      vistos.add(p.dataset.code);
+      pool.push(p);
     });
-  });
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    els.recs.innerHTML = pool.slice(0, 4).map((p) => `
+      <button class="drawer-rec" type="button" data-rec-code="${escapar(p.dataset.code)}">
+        <img src="${escapar(p.dataset.img)}" alt="" width="720" height="540" loading="lazy" />
+        <span class="drawer-rec-name">${escapar(p.dataset.name)}</span>
+        <span class="drawer-rec-price">${formatCOP(p.dataset.price)}</span>
+      </button>`).join('');
+  }
 
-  /* Nav links with data-super → activate that super-tab + scroll to catalog */
-  document.querySelectorAll('.nav-links a[data-super]').forEach(link => {
-    link.addEventListener('click', (e) => {
+  function abrirProducto(card) {
+    if (!card) return;
+    const d = card.dataset;
+    const info = DATA.info[d.sub] || {};
+    estado.card = card;
+    estado.qty = 1;
+    estado.precio = Number(d.price);
+    if (!drawer.classList.contains('is-open')) estado.ultimoFoco = document.activeElement;
+
+    els.img.src = d.img;
+    els.img.alt = d.name;
+    els.cat.textContent = info.etiqueta || '';
+    els.para.textContent = info.para ? `Para: ${info.para}` : '';
+    els.name.textContent = d.name;
+    els.code.textContent = d.code;
+    els.tagline.textContent = info.tagline || '';
+    pintarGuia(info);
+    pintarSabores(d.code);
+    pintarRecomendados(card);
+    actualizarPedido();
+
+    clearTimeout(estado.cerrando);
+    drawer.hidden = false;
+    void drawer.offsetWidth; // fuerza el reflow para que la transición arranque sin depender de rAF
+    drawer.classList.add('is-open');
+    document.body.classList.add('has-drawer');
+    bloquear('panel');
+    drawer.querySelector('.drawer-scroll').scrollTop = 0;
+    drawer.querySelector('.drawer-close').focus({ preventScroll: true });
+  }
+
+  function cerrarProducto() {
+    if (!drawer.classList.contains('is-open')) return;
+    drawer.classList.remove('is-open');
+    document.body.classList.remove('has-drawer');
+    desbloquear('panel');
+    estado.cerrando = setTimeout(() => { drawer.hidden = true; }, 340);
+    if (estado.ultimoFoco && document.contains(estado.ultimoFoco)) estado.ultimoFoco.focus({ preventScroll: true });
+  }
+
+  const tarjetaPorCodigo = (code) => document.querySelector(`.pc[data-code="${CSS.escape(code)}"]`);
+
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('.pc-link');
+    if (link) {
       e.preventDefault();
-      const sup = link.dataset.super;
-      activateSuper(sup);
-      nav && nav.classList.remove('is-open');
-      const catalog = document.getElementById('catalogo');
-      if (catalog) {
-        const offset = window.innerWidth < 768 ? 70 : 110;
-        window.scrollTo({ top: catalog.offsetTop - offset, behavior: 'smooth' });
-      }
-    });
+      abrirProducto(link.closest('.pc'));
+      return;
+    }
+    const abrir = e.target.closest('[data-open-code]');
+    if (abrir) {
+      abrirProducto(tarjetaPorCodigo(abrir.dataset.openCode));
+      return;
+    }
+    const rec = e.target.closest('.drawer-rec');
+    if (rec) {
+      abrirProducto(tarjetaPorCodigo(rec.dataset.recCode));
+      return;
+    }
+    if (e.target.closest('[data-close]')) cerrarProducto();
   });
 
-  function initPicker(section) {
-    const image  = section.querySelector('[data-role="image"]');
-    const name   = section.querySelector('[data-role="name"]');
-    const desc   = section.querySelector('[data-role="desc"]');
-    const price  = section.querySelector('[data-role="price"]');
-    const cta    = section.querySelector('[data-role="cta"]');
-    const qtyVal = section.querySelector('[data-role="qty-value"]');
-    const variantsBox = section.querySelector('[data-role="variants-container"]');
-    const notesBox    = section.querySelector('[data-role="notes-row"]');
-    const notesEl     = section.querySelector('[data-role="notes"]');
+  drawer.querySelectorAll('.drawer-qty-btn').forEach((btn) => btn.addEventListener('click', () => {
+    estado.qty = btn.dataset.q === 'plus' ? Math.min(estado.qty + 1, 99) : Math.max(estado.qty - 1, 1);
+    actualizarPedido();
+  }));
 
-    const tabs  = section.querySelectorAll('.tab');
-    const chips = section.querySelectorAll('.chip');
-    const qtyBtns = section.querySelectorAll('.qty-btn');
-
-    const state = { qty: 1 };
-
-    function buildCTA() {
-      const activeTab  = section.querySelector('.tab.is-active') || tabs[0];
-      const activeChip = section.querySelector('.chip.is-active');
-      const productName = activeTab ? activeTab.dataset.name : '';
-      const variant = (variantsBox && !variantsBox.classList.contains('is-hidden') && activeChip)
-        ? activeChip.dataset.variant : null;
-
-      const lines = [`Hola PLACERX, quiero pedir:`];
-      lines.push(`• ${productName}${variant ? ` (sabor: ${variant})` : ''}`);
-      lines.push(`• Cantidad: ${state.qty}`);
-      if (cta) cta.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
-    }
-
-    function updateTotal() {
-      const activeTab = section.querySelector('.tab.is-active') || tabs[0];
-      if (!price || !activeTab) return;
-      const unit = Number(activeTab.dataset.price || 0);
-      const total = unit * state.qty;
-      // Swap animation
-      price.classList.add('is-swapping');
-      setTimeout(() => {
-        price.textContent = formatCOP(total);
-        price.classList.remove('is-swapping');
-      }, 130);
-    }
-
-    function applyProduct(tab) {
-      if (!tab) return;
-      tabs.forEach(t => t.classList.remove('is-active'));
-      tab.classList.add('is-active');
-
-      // Show/hide variants block based on data-variants
-      if (variantsBox) {
-        const hasVariants = tab.dataset.variants !== 'false';
-        variantsBox.classList.toggle('is-hidden', !hasVariants);
-      }
-
-      // Animated swap
-      if (image) {
-        image.classList.add('is-swapping');
-        setTimeout(() => {
-          image.src = tab.dataset.img;
-          image.alt = tab.dataset.name;
-          image.classList.remove('is-swapping');
-        }, 180);
-      }
-      if (name) {
-        name.classList.add('is-swapping');
-        setTimeout(() => {
-          name.textContent = tab.dataset.name;
-          name.classList.remove('is-swapping');
-        }, 120);
-      }
-      if (desc) {
-        desc.classList.add('is-swapping');
-        setTimeout(() => {
-          desc.textContent = tab.dataset.desc;
-          desc.classList.remove('is-swapping');
-        }, 140);
-      }
-
-      // Update notes if present
-      if (notesEl && tab.dataset.notes) {
-        notesEl.innerHTML = tab.dataset.notes
-          .split('·')
-          .map(n => `<span class="note">${n.trim()}</span>`)
-          .join('');
-      }
-
-      updateTotal();
-      buildCTA();
-    }
-
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => applyProduct(tab));
+  function elegirSabor(chip) {
+    els.flavors.querySelectorAll('.drawer-chip').forEach((c) => {
+      const on = c === chip;
+      c.setAttribute('aria-checked', String(on));
+      c.tabIndex = on ? 0 : -1;
     });
-
-    chips.forEach(chip => {
-      chip.addEventListener('click', () => {
-        chips.forEach(c => c.classList.remove('is-active'));
-        chip.classList.add('is-active');
-        buildCTA();
-      });
-    });
-
-    qtyBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (btn.dataset.qtyAction === 'plus')      state.qty = Math.min(state.qty + 1, 99);
-        else if (btn.dataset.qtyAction === 'minus') state.qty = Math.max(state.qty - 1, 1);
-        if (qtyVal) qtyVal.textContent = state.qty;
-        updateTotal();
-        buildCTA();
-      });
-    });
-
-    buildCTA();
+    actualizarPedido();
   }
-
-  /* ========== REVEAL ON SCROLL ========== */
-  const revealTargets = document.querySelectorAll(
-    '.hero-left > *, .hero-right, .hero-bottom, ' +
-    '.catalog-master-head > *, .super-tabs, .super-desc, .sub-tabs, .pc, ' +
-    '.how-step, ' +
-    '.dm, ' +
-    '.contact-left > *, .contact-card'
-  );
-  revealTargets.forEach(el => el.classList.add('reveal'));
-
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('is-in'), i * 35);
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-    revealTargets.forEach(el => io.observe(el));
-  } else {
-    revealTargets.forEach(el => el.classList.add('is-in'));
-  }
-
-  /* ========== SMOOTH ANCHORS ========== */
-  document.querySelectorAll('a[href^="#"]').forEach(link => {
-    if (link.dataset.super) return; // handled above
-    link.addEventListener('click', (e) => {
-      const href = link.getAttribute('href');
-      if (!href || href === '#' || href.length < 2) return;
-      const target = document.querySelector(href);
-      if (!target) return;
-      e.preventDefault();
-      const offset = window.innerWidth < 768 ? 70 : 100;
-      window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
-    });
+  els.flavors.addEventListener('click', (e) => {
+    const chip = e.target.closest('.drawer-chip');
+    if (chip) elegirSabor(chip);
+  });
+  els.flavors.addEventListener('keydown', (e) => {
+    if (!['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'].includes(e.key)) return;
+    const chips = Array.from(els.flavors.querySelectorAll('.drawer-chip'));
+    const i = chips.indexOf(document.activeElement);
+    if (i < 0) return;
+    e.preventDefault();
+    const j = (i + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1) + chips.length) % chips.length;
+    chips[j].focus();
+    elegirSabor(chips[j]);
   });
 
-  /* ========== HERO PARALLAX ========== */
-  const heroProduct = document.querySelector('.hero-product');
-  const heroSign = document.querySelector('.hero-sign');
-  if (heroProduct && window.matchMedia('(min-width: 1024px)').matches) {
-    window.addEventListener('mousemove', (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 2;
-      const y = (e.clientY / window.innerHeight - 0.5) * 2;
-      heroProduct.style.transform = `translate(${x * 10}px, ${y * 10}px)`;
-      if (heroSign) heroSign.style.transform = `rotate(-6deg) translate(${x * -14}px, ${y * -8}px)`;
-    });
+  // Esc cierra; Tab no se sale del panel mientras está abierto
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (drawer.classList.contains('is-open')) cerrarProducto();
+      else if (nav.classList.contains('is-open')) { cerrarMenu(); burger.focus(); }
+      return;
+    }
+    if (e.key !== 'Tab' || !drawer.classList.contains('is-open')) return;
+    const focos = Array.from(drawer.querySelectorAll('a[href], button:not([disabled]), [tabindex="0"]'))
+      .filter((el) => el.offsetParent !== null);
+    if (!focos.length) return;
+    const primero = focos[0], ultimo = focos[focos.length - 1];
+    if (e.shiftKey && document.activeElement === primero) { e.preventDefault(); ultimo.focus(); }
+    else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero.focus(); }
+  });
+
+  /* ========== ENLACES DIRECTOS: #categoria o #producto-CODIGO ========== */
+  function abrirDesdeHash() {
+    const hash = decodeURIComponent(location.hash.slice(1));
+    if (!hash) return;
+    if (idsCategorias.includes(hash)) {
+      activarCategoria(hash);
+      document.querySelector('.cat-tabs-wrap').scrollIntoView({ block: 'start' });
+    } else if (hash.startsWith('producto-')) {
+      const card = tarjetaPorCodigo(hash.slice(9));
+      if (card) {
+        activarCategoria(card.closest('.cat-panel').dataset.cat);
+        abrirProducto(card);
+      }
+    }
   }
+  if (edadOk) abrirDesdeHash();
+  window.addEventListener('hashchange', () => { if (ageGate.classList.contains('is-hidden')) abrirDesdeHash(); });
 })();

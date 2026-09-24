@@ -1,0 +1,1058 @@
+{
+  "whatsapp": "573105955979",
+  "categorias": [
+    {
+      "id": "lubricantes",
+      "nombre": "Lubricantes",
+      "icono": "gota",
+      "intro": "Calor, frío, neutros, saborizados o híbridos: el lubricante para cada momento.",
+      "subs": [
+        {
+          "id": "lubricantes",
+          "nombre": "Todos",
+          "info": "lubricantes",
+          "productos": [
+            {
+              "code": "Lu01",
+              "nombre": "Lubricante Caliente Sachet SEN Sabores",
+              "precio": 15000,
+              "img": "catalogo/Lu01 Lubricante caliente sachet sen sabores.png"
+            },
+            {
+              "code": "Lu02",
+              "nombre": "Lubricante Frío Elixir 15 ml",
+              "precio": 20000,
+              "img": "catalogo/Lu02 Lubricante frio elixir 15ml (1).png"
+            },
+            {
+              "code": "Lu04",
+              "nombre": "Lubricante Caliente SEN 30 ml",
+              "precio": 28000,
+              "img": "catalogo/Lu04 lubricante caliente sen 30 ml.png"
+            },
+            {
+              "code": "Lu07",
+              "nombre": "Lubricante Frío/Calor con Dados",
+              "precio": 35000,
+              "img": "catalogo/Lu07 Lubricante frio calor con dados.png"
+            },
+            {
+              "code": "Lu14",
+              "nombre": "Lubricante Neutro Elixir 100 ml",
+              "precio": 38000,
+              "img": "catalogo/Lu14 Lubricante neutro elixir 100ml.png"
+            },
+            {
+              "code": "Lu16",
+              "nombre": "Lubricante Natural en Gel",
+              "precio": 25000,
+              "img": "catalogo/Lu16 Lubricante natural en gel.png"
+            },
+            {
+              "code": "Lu20",
+              "nombre": "Lubricante Perlas x3",
+              "precio": 18000,
+              "img": "catalogo/Lu20 Lubricante perlas x3.png"
+            },
+            {
+              "code": "Lu21",
+              "nombre": "Lubricante SEN de Menta",
+              "precio": 22000,
+              "img": "catalogo/Lu21 Lubricante sen de menta.png"
+            },
+            {
+              "code": "Lu22",
+              "nombre": "Lubricante SEN Neutro 30 ml",
+              "precio": 24000,
+              "img": "catalogo/Lu22 Lubricante sen neutro 30ml.png"
+            },
+            {
+              "code": "Lu33",
+              "nombre": "Lubricante Fashion 30 ml",
+              "precio": 26000,
+              "img": "catalogo/Lu33 Lubricante fashion 30ml (1).png"
+            },
+            {
+              "code": "Lu40",
+              "nombre": "Lubricante Silicona SEN 30 ml",
+              "precio": 32000,
+              "img": "catalogo/Lu40 lubricante silicona sen 30 ml.png"
+            },
+            {
+              "code": "Lu41",
+              "nombre": "Lubricantes Elixir Saborizados",
+              "precio": 28000,
+              "img": "catalogo/Lu41 lubricantes elixir saborizados.png"
+            },
+            {
+              "code": "Lu18",
+              "nombre": "Lubricante Frío/Caliente con Potencializador + Dados Amor",
+              "precio": 15000,
+              "img": "catalogo/Lu18 Lubricante frio caliente con potencializador mas dados amor (1).png"
+            },
+            {
+              "code": "Lu36",
+              "nombre": "Vibrador Líquido Frequency Intense",
+              "precio": 45000,
+              "img": "catalogo/Lu36 Vibrador liquido frequency intense.png"
+            },
+            {
+              "code": "Lu42",
+              "nombre": "Lubricante Trío SEN 30 ml",
+              "precio": 42000,
+              "img": "catalogo/Lu42 trio sen 30 ml.png"
+            },
+            {
+              "code": "Lu56",
+              "nombre": "Lubricante 5 Funciones 30 ml",
+              "precio": 35000,
+              "img": "catalogo/Lu56 Lubricante 5 funciones 30ml (1).png"
+            },
+            {
+              "code": "Lu57",
+              "nombre": "Lubricante Híbrido SEN 30 ml",
+              "precio": 35000,
+              "img": "catalogo/Lu57-lubricante-hibrido-sen-30ml.png",
+              "nuevo": true
+            },
+            {
+              "code": "Lu58",
+              "nombre": "Lubricante Anal Desensibilizante SEN Sachet 7 ml",
+              "precio": 15000,
+              "img": "catalogo/Lu58-lubricante-anal-sen-sachet-7ml.png",
+              "nuevo": true
+            },
+            {
+              "code": "M01",
+              "nombre": "Lubricante Electrizante SEN Sabores 30 ml",
+              "precio": 45000,
+              "img": "catalogo/M01 multiorgasmo electrizante sabores 30 ml.png"
+            },
+            {
+              "code": "M04",
+              "nombre": "Lubricante Frío-Calor SEN 30 ml",
+              "precio": 45000,
+              "img": "catalogo/M04 multiorgasmo doble sensación sen 30 ml.png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "energizantes",
+      "nombre": "Energizantes",
+      "icono": "rayo",
+      "intro": "Energía y rendimiento para el encuentro. Elige según para quién es.",
+      "subs": [
+        {
+          "id": "energizantes-hombre",
+          "nombre": "Hombre",
+          "info": "energizantes-hombre",
+          "productos": [
+            {
+              "code": "P02",
+              "nombre": "Potenciador Mero Macho en Pastilla",
+              "precio": 12000,
+              "img": "catalogo/P02 potenciador mero macho en pastilla.png",
+              "genero": "hombre"
+            },
+            {
+              "code": "P07",
+              "nombre": "Potenciador Big Penis",
+              "precio": 15000,
+              "img": "catalogo/P07 potenciador big penis.png",
+              "genero": "hombre"
+            },
+            {
+              "code": "P08",
+              "nombre": "Potenciador Bull Cápsulas",
+              "precio": 10000,
+              "img": "catalogo/P08 potenciador bull capsulas.png",
+              "genero": "hombre"
+            },
+            {
+              "code": "P15",
+              "nombre": "Potenciador Maxman Ultra",
+              "precio": 13000,
+              "img": "catalogo/P15 potenciador maxman ultra.png",
+              "genero": "hombre"
+            },
+            {
+              "code": "P17",
+              "nombre": "Potenciador Mega Sex Gold",
+              "precio": 12000,
+              "img": "catalogo/P17 potenciador mega sex gold.png",
+              "genero": "hombre"
+            },
+            {
+              "code": "P20",
+              "nombre": "Potenciador Power Sex",
+              "precio": 7000,
+              "img": "catalogo/P20 potenciador power sex (7).png",
+              "genero": "hombre"
+            },
+            {
+              "code": "P24",
+              "nombre": "Potencializador Bull Mini",
+              "precio": 10000,
+              "img": "catalogo/P24 Potencializador Bull mini.png",
+              "genero": "hombre"
+            },
+            {
+              "code": "P25",
+              "nombre": "Sachets Vitafer",
+              "precio": 6000,
+              "img": "catalogo/P25 Sachets vitafer (1).png",
+              "genero": "hombre"
+            },
+            {
+              "code": "P32",
+              "nombre": "Potenciador Enano Pichón Sachet",
+              "precio": 10000,
+              "img": "catalogo/P32 potenciador enano pichon sachet.png",
+              "genero": "hombre"
+            },
+            {
+              "code": "P34",
+              "nombre": "Potencializador Xbull Energy Drink Hombre",
+              "precio": 7000,
+              "img": "catalogo/P34 Potencializador xbull energy drink hombre.png",
+              "genero": "hombre"
+            },
+            {
+              "code": "P36",
+              "nombre": "Potencializador X Bull Drink 120 ml",
+              "precio": 20000,
+              "img": "catalogo/P36 Potencializador x bull drink 120 ml (4).png",
+              "genero": "hombre"
+            },
+            {
+              "code": "P42",
+              "nombre": "Potencializador Xbull Energy Drink Hombre 500 ml",
+              "precio": 40000,
+              "img": "catalogo/P42 Potencializador xbull energy drink hombre 500ml.png",
+              "genero": "hombre"
+            },
+            {
+              "code": "BP01",
+              "nombre": "Energizante Black Power Cápsulas",
+              "precio": 14000,
+              "img": "catalogo/BP01-energizante-black-power-capsulas.png",
+              "nuevo": true,
+              "genero": "hombre"
+            },
+            {
+              "code": "BP02",
+              "nombre": "Energizante Black Power 30 ml",
+              "precio": 12000,
+              "img": "catalogo/BP02-energizante-black-power-30ml.png",
+              "nuevo": true,
+              "genero": "hombre"
+            },
+            {
+              "code": "RV01",
+              "nombre": "Energizante Revitex 60 ml",
+              "precio": 18500,
+              "img": "catalogo/RV01-energizante-revitex-60ml.png",
+              "nuevo": true,
+              "genero": "hombre"
+            },
+            {
+              "code": "MT01",
+              "nombre": "Energizante More Time",
+              "precio": 21500,
+              "img": "catalogo/MT01-energizante-more-time.png",
+              "nuevo": true,
+              "genero": "hombre"
+            }
+          ]
+        },
+        {
+          "id": "energizantes-mujer",
+          "nombre": "Mujer",
+          "info": "energizantes-mujer",
+          "productos": [
+            {
+              "code": "P03",
+              "nombre": "Arrechante Fire Fox",
+              "precio": 12000,
+              "img": "catalogo/P03 Arrechante fire fox.png",
+              "genero": "mujer"
+            },
+            {
+              "code": "P04",
+              "nombre": "Arrechante Gold Fly",
+              "precio": 16000,
+              "img": "catalogo/P04 arrechante gold fly.png",
+              "genero": "mujer"
+            },
+            {
+              "code": "P11",
+              "nombre": "Potenciador Femenino Bichota",
+              "precio": 10000,
+              "img": "catalogo/P11 potenciador femenino bichota (2).png",
+              "genero": "mujer"
+            },
+            {
+              "code": "P19",
+              "nombre": "Potenciador Power Sex Femenina",
+              "precio": 14000,
+              "img": "catalogo/P19 potenciador power sex femenina.png",
+              "genero": "mujer"
+            },
+            {
+              "code": "P28",
+              "nombre": "Potencializador Xbull Energy Drink",
+              "precio": 7000,
+              "img": "catalogo/P28 Potencializador xbull energy drink (1).png",
+              "genero": "mujer"
+            },
+            {
+              "code": "P39",
+              "nombre": "Estimulante Femenino Bull",
+              "precio": 10000,
+              "img": "catalogo/P39 Estimulante femenino bull (2).png",
+              "genero": "mujer"
+            },
+            {
+              "code": "P41",
+              "nombre": "Potencializador Xbull Energy Drink Mujer 100 ml",
+              "precio": 20000,
+              "img": "catalogo/P41 Potencializador xbull energy drink mujer 100ml.png",
+              "genero": "mujer"
+            }
+          ]
+        },
+        {
+          "id": "energizantes-unisex",
+          "nombre": "Unisex",
+          "info": "energizantes-unisex",
+          "productos": [
+            {
+              "code": "P05",
+              "nombre": "Desenguayabante Full Ready",
+              "precio": 15000,
+              "img": "catalogo/P05 desenguayabante full ready.png",
+              "genero": "unisex"
+            },
+            {
+              "code": "P45",
+              "nombre": "Potenciador Unisex Nitrox",
+              "precio": 7000,
+              "img": "catalogo/P45 Potenciador unisex Nitrox (1).png",
+              "genero": "unisex"
+            },
+            {
+              "code": "P30",
+              "nombre": "Potenciador Unisex Bayls 600 ml",
+              "precio": 50000,
+              "img": "catalogo/P30-potenciador-unisex-bayls-600ml.png",
+              "nuevo": true,
+              "genero": "unisex"
+            },
+            {
+              "code": "P44",
+              "nombre": "Potenciador Unisex Yogurcito",
+              "precio": 20000,
+              "img": "catalogo/P44-potenciador-unisex-yogurcito.png",
+              "nuevo": true,
+              "genero": "unisex"
+            },
+            {
+              "code": "N01",
+              "nombre": "Gomitas Vi King x2 Borojó y Chontaduro",
+              "precio": 8000,
+              "img": "catalogo/N01 Concha Gummies Vi King.png",
+              "genero": "unisex"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "retardantes",
+      "nombre": "Retardantes",
+      "icono": "reloj",
+      "intro": "Más control y encuentros más largos, sin perder sensación.",
+      "subs": [
+        {
+          "id": "retardantes",
+          "nombre": "Retardantes",
+          "info": "retardantes",
+          "productos": [
+            {
+              "code": "R03",
+              "nombre": "Retardante Bull",
+              "precio": 26500,
+              "img": "catalogo/R03 retardante bull.png"
+            },
+            {
+              "code": "R04",
+              "nombre": "Retardante Caballo Blanco",
+              "precio": 22000,
+              "img": "catalogo/R04 retardante caballo blanco.png"
+            },
+            {
+              "code": "R05",
+              "nombre": "Retardante Ejaculation Delay",
+              "precio": 50000,
+              "img": "catalogo/R05 retardante ejaculation delay.png"
+            },
+            {
+              "code": "R11",
+              "nombre": "Retardante Rino Crema Dorado",
+              "precio": 15000,
+              "img": "catalogo/R11 retardante rino crema dorado.png"
+            },
+            {
+              "code": "R16",
+              "nombre": "Retardex Ultra con Canabis",
+              "precio": 12000,
+              "img": "catalogo/R16 retardex ultra con canabis.png"
+            },
+            {
+              "code": "R18",
+              "nombre": "Rino en Crema Azul",
+              "precio": 20000,
+              "img": "catalogo/R18 rino en crema azul.png"
+            },
+            {
+              "code": "R19",
+              "nombre": "Rino en Spray Dorado",
+              "precio": 22000,
+              "img": "catalogo/R19 rino en spray dorado.png"
+            },
+            {
+              "code": "R21",
+              "nombre": "Stud Delay 15 ml",
+              "precio": 36500,
+              "img": "catalogo/R21 stud delay 15ml.png"
+            },
+            {
+              "code": "R25",
+              "nombre": "Retardante Ejaculation Delay SEN Sachet 7 ml",
+              "precio": 10000,
+              "img": "catalogo/R25-retardante-sen-sachet-7ml.png",
+              "nuevo": true
+            }
+          ]
+        },
+        {
+          "id": "engrosadores",
+          "nombre": "Engrosadores",
+          "info": "engrosadores",
+          "productos": [
+            {
+              "code": "BP03",
+              "nombre": "Crema Voluminizante Black Power 30 ml",
+              "precio": 35000,
+              "img": "catalogo/BP03-crema-voluminizante-black-power-30ml.png",
+              "nuevo": true
+            },
+            {
+              "code": "Ot06",
+              "nombre": "Engrosador Mr. Bigger Shunga",
+              "precio": 15000,
+              "img": "catalogo/Ot06-engrosador-mr-bigger.png",
+              "nuevo": true
+            },
+            {
+              "code": "R23",
+              "nombre": "Engrosador Metálico",
+              "precio": 40000,
+              "img": "catalogo/R23 Engrosador metalico (3).png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sensaciones",
+      "nombre": "Sensaciones",
+      "icono": "chispa",
+      "intro": "Multiorgásmicos y estrechantes para sentirlo todo.",
+      "subs": [
+        {
+          "id": "multiorgasmos",
+          "nombre": "Multiorgásmicos",
+          "info": "multiorgasmos",
+          "productos": [
+            {
+              "code": "M02",
+              "nombre": "Multiorgasmo Caja Negra",
+              "precio": 12000,
+              "img": "catalogo/M02 multiorgams caja negra.png"
+            },
+            {
+              "code": "M03",
+              "nombre": "Multiorgasmo Intense Efect Doble Sensación",
+              "precio": 22000,
+              "img": "catalogo/M03 multiorgasmo intense efect doble sensacion.png"
+            },
+            {
+              "code": "M10",
+              "nombre": "Multiorgasmo SEN Corazón 10 ml",
+              "precio": 24000,
+              "img": "catalogo/M10 multiorgasmo sen corazon 10 ml.png"
+            },
+            {
+              "code": "M11",
+              "nombre": "Multiorgasmo Electrizante Frío 5 ml",
+              "precio": 42000,
+              "img": "catalogo/M11 multiorgasmo electrizante frio 5ml.png"
+            },
+            {
+              "code": "M16",
+              "nombre": "Multiorgasmo Electrizante 5 ml",
+              "precio": 40000,
+              "img": "catalogo/M16 multiorgasmo electrizante 5ml.png"
+            },
+            {
+              "code": "M19",
+              "nombre": "Multiorgasmo SEN 30 ml",
+              "precio": 35000,
+              "img": "catalogo/M19 multiorgasmo sen 30ml.png"
+            },
+            {
+              "code": "M20",
+              "nombre": "Multiorgasmo Sachet SEN",
+              "precio": 12000,
+              "img": "catalogo/M20 multiorgasmo sachet sen.png"
+            },
+            {
+              "code": "M22",
+              "nombre": "Multiorgasmo Doble Impacto Euforia Spray",
+              "precio": 18000,
+              "img": "catalogo/M22 Multiorgasmo doble impacto euforia spray.png"
+            },
+            {
+              "code": "M25",
+              "nombre": "Multiorgasmo Elixir 15 ml",
+              "precio": 20000,
+              "img": "catalogo/M25 multiorgasmo elixir 15ml (3).png"
+            }
+          ]
+        },
+        {
+          "id": "estrechantes",
+          "nombre": "Estrechantes",
+          "info": "estrechantes",
+          "productos": [
+            {
+              "code": "Es02",
+              "nombre": "Estrechante Mini 8 ml",
+              "precio": 10000,
+              "img": "catalogo/Es02 estrechante mini 8 ml .png"
+            },
+            {
+              "code": "Es04",
+              "nombre": "Estrechante Euforia Spray",
+              "precio": 15000,
+              "img": "catalogo/Es04 estrechante euforia spray .png"
+            },
+            {
+              "code": "Es08",
+              "nombre": "Estrechante SEN Corazón 10 ml",
+              "precio": 24000,
+              "img": "catalogo/Es08 estrechante sen corazon 10 ml.png"
+            },
+            {
+              "code": "Es10",
+              "nombre": "Estrechante SEN Sachet",
+              "precio": 12000,
+              "img": "catalogo/Es10 Estrechante sen sachet .png"
+            },
+            {
+              "code": "Es12",
+              "nombre": "Estrechante Friction",
+              "precio": 32000,
+              "img": "catalogo/Es12  Estrechante friction .png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ritual",
+      "nombre": "Ritual",
+      "icono": "flor",
+      "intro": "Cuidado íntimo, facial y corporal para crear el ambiente.",
+      "subs": [
+        {
+          "id": "cuidado-intimo",
+          "nombre": "Cuidado íntimo",
+          "info": "cuidado-intimo",
+          "productos": [
+            {
+              "code": "Ot01",
+              "nombre": "Despigmentante Íntimo SEN",
+              "precio": 65000,
+              "img": "catalogo/Ot01 despigmentante intimo sen.png"
+            },
+            {
+              "code": "Ot03",
+              "nombre": "Desodorante Íntimo Flavor Sex",
+              "precio": 20000,
+              "img": "catalogo/Ot03 desdorante intimo flavor sex.png"
+            },
+            {
+              "code": "Ot16",
+              "nombre": "Despigmentante Truly 50 ml",
+              "precio": 33000,
+              "img": "catalogo/Ot16 despigmentante truly 50ml (1).png"
+            },
+            {
+              "code": "Ot18",
+              "nombre": "Kit Truly",
+              "precio": 79000,
+              "img": "catalogo/Ot18 Kit truly.png"
+            }
+          ]
+        },
+        {
+          "id": "cuidado-facial",
+          "nombre": "Cuidado facial",
+          "info": "cuidado-facial",
+          "productos": [
+            {
+              "code": "F02",
+              "nombre": "Kit Viajero Bio Aqua",
+              "precio": 26000,
+              "img": "catalogo/F02 Kit viajero bio aqua (1).png"
+            },
+            {
+              "code": "F05",
+              "nombre": "Brillo Labial SEN 10 ml",
+              "precio": 18000,
+              "img": "catalogo/F05 brillo labial sen 10ml.png"
+            },
+            {
+              "code": "F07",
+              "nombre": "Brillo Labial SEN 20 ml",
+              "precio": 32000,
+              "img": "catalogo/F07 brillo labial sen 20 ml.png"
+            }
+          ]
+        },
+        {
+          "id": "cuerpo-masajes",
+          "nombre": "Cuerpo y masajes",
+          "info": "cuerpo-masajes",
+          "productos": [
+            {
+              "code": "F03",
+              "nombre": "Aceite para Masajes con Feromonas 250 ml SEN",
+              "precio": 47500,
+              "img": "catalogo/F03 aceite para masajes con feromonas 250 ml sen.png"
+            },
+            {
+              "code": "F14",
+              "nombre": "Jabón con Feromonas Noches de Arabia",
+              "precio": 15000,
+              "img": "catalogo/F14 jabon con feromnas noches de arabia .png"
+            },
+            {
+              "code": "F15",
+              "nombre": "Velas Aromatizantes",
+              "precio": 16000,
+              "img": "catalogo/F15 velas aromantizantes.png"
+            },
+            {
+              "code": "F18",
+              "nombre": "Vela para Masajes Shunga",
+              "precio": 18000,
+              "img": "catalogo/F18 vela para masajes shunga  .png"
+            },
+            {
+              "code": "F21",
+              "nombre": "Crema Humectante con Feromonas SEN",
+              "precio": 36000,
+              "img": "catalogo/F21 Crema humectante con feromonas sen.png"
+            },
+            {
+              "code": "F25",
+              "nombre": "Splash con Brillos 120 ml",
+              "precio": 26000,
+              "img": "catalogo/F25 Splash con brillos 120ml (1).png"
+            },
+            {
+              "code": "F30",
+              "nombre": "Aceite Explosión Frutal para Masajes 60 ml",
+              "precio": 25000,
+              "img": "catalogo/F30 Aceite explosión frutal para masajes 60ml (1).png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "condones",
+      "nombre": "Condones",
+      "icono": "escudo",
+      "intro": "Protección con sensibilidad: saborizados, texturizados y más.",
+      "subs": [
+        {
+          "id": "condones",
+          "nombre": "Todos",
+          "info": "condones",
+          "productos": [
+            {
+              "code": "Ot09",
+              "nombre": "Preservativos Saborizados",
+              "precio": 5500,
+              "img": "catalogo/Ot09 preservativos saborizados (3).png"
+            },
+            {
+              "code": "Ot10",
+              "nombre": "Preservativos Vitalis Delay & Cooling",
+              "precio": 15000,
+              "img": "catalogo/Ot10 preservativos vitalis.png"
+            },
+            {
+              "code": "C01",
+              "nombre": "Condón Kristel Colores Surtidos",
+              "precio": 2000,
+              "img": "catalogo/C01 Kristel Colores Surtidos.png"
+            },
+            {
+              "code": "C02",
+              "nombre": "Condón Sens Extase con Burbujas x3",
+              "precio": 8000,
+              "img": "catalogo/C02 Sens Extase Burbujas.png"
+            },
+            {
+              "code": "C03",
+              "nombre": "Condón Sens Exciter con Estrías x3",
+              "precio": 9000,
+              "img": "catalogo/C03 Sens Exciter Estrias.png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "juegos",
+      "nombre": "Juegos",
+      "icono": "dado",
+      "intro": "Juegos para parejas y grupos: dados, cartas, retos y más.",
+      "subs": [
+        {
+          "id": "juegos",
+          "nombre": "Todos",
+          "info": "juegos",
+          "productos": [
+            {
+              "code": "JG01",
+              "nombre": "Jenga Erótico Picante",
+              "precio": 68000,
+              "img": "catalogo/Jenga erotico picante.png"
+            },
+            {
+              "code": "JG05",
+              "nombre": "Cartas Kamasutra",
+              "precio": 40000,
+              "img": "catalogo/Jm05 cartas kamasutra.png"
+            },
+            {
+              "code": "JG02",
+              "nombre": "Toma Todo Plástico Erótico",
+              "precio": 6000,
+              "img": "catalogo/Jm01 toma todo plastico.png"
+            },
+            {
+              "code": "JG08",
+              "nombre": "Juego de Mesa 50 Sombras",
+              "precio": 78000,
+              "img": "catalogo/Jm08 juego de mesa 50 sombras.png"
+            },
+            {
+              "code": "JG14",
+              "nombre": "Juego Oral Lésbico Tentación",
+              "precio": 52000,
+              "img": "catalogo/Jm14 juego de mesa oral lesbico.png"
+            },
+            {
+              "code": "JG22",
+              "nombre": "Triki Erótico Hetero",
+              "precio": 22000,
+              "img": "catalogo/Jm22 triki hetero.png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nuevos",
+      "nombre": "Nuevos",
+      "icono": "estrella",
+      "intro": "Lo último que llegó: gomitas, vibradores y comestibles.",
+      "subs": [
+        {
+          "id": "nuevos",
+          "nombre": "Todos",
+          "info": "nuevos",
+          "productos": [
+            {
+              "code": "N01",
+              "nombre": "Gomitas Vi King x2 Borojó y Chontaduro",
+              "precio": 8000,
+              "img": "catalogo/N01 Concha Gummies Vi King.png"
+            },
+            {
+              "code": "N02",
+              "nombre": "Bala Delfín",
+              "precio": 18000,
+              "img": "catalogo/N02 Bala Delfin.png"
+            },
+            {
+              "code": "N03",
+              "nombre": "Bala Vibradora Zanahoria",
+              "precio": 18000,
+              "img": "catalogo/N03 Bala Vibradora Zanahoria.png"
+            },
+            {
+              "code": "N04",
+              "nombre": "Labios Comestibles Vi King",
+              "precio": 32000,
+              "img": "catalogo/N04 Labios Comestibles Vi King.png"
+            },
+            {
+              "code": "N05",
+              "nombre": "Anillos Donas Vi King x3",
+              "precio": 32000,
+              "img": "catalogo/N05 Anillos Donas Vi King x3.png"
+            },
+            {
+              "code": "N06",
+              "nombre": "Gummies Vi King Fresa",
+              "precio": 32000,
+              "img": "catalogo/N06 Gummies Vi King Fresa.png"
+            },
+            {
+              "code": "N07",
+              "nombre": "Anillo Vibrador Double Ring",
+              "precio": 33000,
+              "img": "catalogo/N07 Anillo Vibrador Double Ring.png"
+            },
+            {
+              "code": "N08",
+              "nombre": "Funda Sencilla Liam",
+              "precio": 16000,
+              "img": "catalogo/N08 Funda Sencilla Liam.png"
+            },
+            {
+              "code": "N09",
+              "nombre": "Funda Wasabi",
+              "precio": 27000,
+              "img": "catalogo/N09 Funda Wasabi.png"
+            },
+            {
+              "code": "N10",
+              "nombre": "Anillo Multi Points",
+              "precio": 65000,
+              "img": "catalogo/N10 Anillo Multi Points.png"
+            },
+            {
+              "code": "N11",
+              "nombre": "Anillo Sencillo",
+              "precio": 12000,
+              "img": "catalogo/N11 Anillo Sencillo.png"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": {
+    "lubricantes": {
+      "etiqueta": "Lubricante",
+      "para": "Todos",
+      "tagline": "Para que todo fluya, sin pausas.",
+      "desc": "Lubricantes íntimos con efecto calor, frío, neutros, saborizados, híbridos o de silicona. Revisa en el empaque el tipo de base de cada uno.",
+      "features": [
+        "Efecto calor, frío o neutro",
+        "Opciones saborizadas",
+        "Textura suave",
+        "Apto +18"
+      ]
+    },
+    "energizantes-hombre": {
+      "etiqueta": "Energizante · Hombre",
+      "para": "Hombre",
+      "tagline": "Más energía y rendimiento para el encuentro.",
+      "uso": "Tómalo según las indicaciones del empaque antes del encuentro.",
+      "efecto": "Mejora el flujo sanguíneo y la vitalidad.",
+      "beneficio": "Más estamina y rendimiento físico."
+    },
+    "energizantes-mujer": {
+      "etiqueta": "Energizante · Mujer",
+      "para": "Mujer",
+      "tagline": "Despierta el deseo a tu ritmo.",
+      "uso": "Úsalo según las indicaciones del empaque antes del encuentro.",
+      "efecto": "Estimula el deseo y la sensibilidad.",
+      "beneficio": "Más ganas y disfrute en pareja."
+    },
+    "energizantes-unisex": {
+      "etiqueta": "Energizante · Unisex",
+      "para": "Hombre y mujer",
+      "tagline": "Para los dos, para la misma noche.",
+      "uso": "Tómalo según las indicaciones del empaque antes del encuentro.",
+      "efecto": "Aumenta las ganas y la energía.",
+      "beneficio": "Más potencia y deseo en la relación."
+    },
+    "retardantes": {
+      "etiqueta": "Retardante",
+      "para": "Hombre",
+      "tagline": "Aguanta más, disfruta más.",
+      "uso": "Aplica una pequeña cantidad y espera unos minutos antes del contacto.",
+      "efecto": "Enfriamiento o ligero adormecimiento.",
+      "beneficio": "Mayor control de la eyaculación y erecciones prolongadas."
+    },
+    "engrosadores": {
+      "etiqueta": "Engrosador",
+      "para": "Hombre",
+      "tagline": "Sensación de más volumen y firmeza.",
+      "uso": "Aplica sobre el pene con un masaje suave, según las indicaciones del empaque.",
+      "efecto": "Sensación de volumen y firmeza (efecto temporal).",
+      "beneficio": "Más confianza en el momento íntimo."
+    },
+    "multiorgasmos": {
+      "etiqueta": "Multiorgásmico",
+      "para": "Mujer y unisex",
+      "tagline": "Para sentir más y volver a empezar.",
+      "uso": "Aplica el gel en las zonas erógenas externas y masajea.",
+      "efecto": "Cosquilleo, calor y más sensibilidad.",
+      "beneficio": "Aumenta la probabilidad y la intensidad de los orgasmos."
+    },
+    "estrechantes": {
+      "etiqueta": "Estrechante",
+      "para": "Mujer",
+      "tagline": "Siéntelo todo, como la primera vez.",
+      "uso": "Aplica una pequeña cantidad de gel en la zona íntima y masajea suavemente.",
+      "efecto": "Efecto tónico y de contracción suave.",
+      "beneficio": "Más sensación de estrechez y sensibilidad."
+    },
+    "cuidado-intimo": {
+      "etiqueta": "Cuidado íntimo",
+      "para": "Todos",
+      "tagline": "Tu zona íntima merece lo mejor.",
+      "desc": "Despigmentantes, desodorantes y limpiadores para el cuidado diario de la zona íntima.",
+      "features": [
+        "Uso íntimo",
+        "Cuidado diario",
+        "Apto +18"
+      ]
+    },
+    "cuidado-facial": {
+      "etiqueta": "Cuidado facial",
+      "para": "Todos",
+      "tagline": "Realza tu atractivo.",
+      "desc": "Kits de cuidado y brillos labiales para verte y sentirte bien.",
+      "features": [
+        "Cuidado de la piel",
+        "Acabado seductor"
+      ]
+    },
+    "cuerpo-masajes": {
+      "etiqueta": "Cuerpo y masajes",
+      "para": "Pareja",
+      "tagline": "Crea el ambiente sin decir una palabra.",
+      "desc": "Aceites, velas, cremas y splash para masajes sensuales y un ambiente íntimo.",
+      "features": [
+        "Para masajes",
+        "Aroma envolvente",
+        "Uso sobre la piel"
+      ]
+    },
+    "condones": {
+      "etiqueta": "Condón",
+      "para": "Hombre y unisex",
+      "tagline": "Protección sin sacrificar sensación.",
+      "uso": "Úsalo siempre antes de cualquier contacto y elige la talla correcta.",
+      "efecto": "Barrera protectora de textura ultrafina.",
+      "beneficio": "Protección con sensibilidad maximizada."
+    },
+    "juegos": {
+      "etiqueta": "Juego de mesa",
+      "para": "Pareja",
+      "tagline": "Rompe el hielo y dale picante a la noche.",
+      "uso": "Dedíquense tiempo de calidad y sigan las instrucciones del juego.",
+      "efecto": "Estimulación mental, conversación abierta y diversión.",
+      "beneficio": "Más conexión emocional y física; exploración de fantasías."
+    },
+    "nuevos": {
+      "etiqueta": "Novedad",
+      "para": "Todos",
+      "tagline": "Recién llegado al catálogo.",
+      "desc": "Lo último del catálogo: gomitas, vibradores, anillos y comestibles.",
+      "features": [
+        "Recién llegado",
+        "Stock limitado",
+        "Apto +18"
+      ]
+    }
+  },
+  "sabores": {
+    "Lu01": [
+      "Caramelo",
+      "Chocolate",
+      "Crema de whisky",
+      "Lychee"
+    ],
+    "Lu04": [
+      "Chocolate",
+      "Caramelo",
+      "Café moka",
+      "Crema de whisky"
+    ],
+    "Lu33": [
+      "Fresa",
+      "Frambuesa",
+      "Cereza",
+      "Uva",
+      "Chocolate picante"
+    ],
+    "Lu41": [
+      "Chicle",
+      "Sandía",
+      "Fresa bombón",
+      "Crema de whisky"
+    ],
+    "M01": [
+      "Lychee",
+      "Tequila",
+      "Crema de whisky",
+      "Mango"
+    ],
+    "F05": [
+      "Frutos rojos"
+    ],
+    "F07": [
+      "Sandía",
+      "Frutos rojos"
+    ],
+    "N04": [
+      "Frutos rojos",
+      "Uva",
+      "Sandía"
+    ],
+    "N05": [
+      "Cherry",
+      "Manzana",
+      "Fresa"
+    ],
+    "N06": [
+      "Fresa"
+    ],
+    "N01": [
+      "Borojó y chontaduro"
+    ],
+    "Ot09": [
+      "Uva",
+      "Chocolate",
+      "Manzana",
+      "Frutos rojos",
+      "Cereza"
+    ]
+  }
+}

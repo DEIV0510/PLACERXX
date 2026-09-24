@@ -1,0 +1,10 @@
+# La web solo usa index.html, styles.css, script.js, img/ y logo.png.
+# Lo demás son fotos maestras y herramientas: se quedan en el repo pero no se publican.
+catalogo/
+productos/
+productos_raw/
+data/
+tools/
+logo-original.png
+bg-card.png
+.gitignore

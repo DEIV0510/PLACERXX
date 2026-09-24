@@ -1,0 +1,13 @@
+# Material del proveedor (más de 1 GB): solo vive en este PC
+_material-*/
+
+# Scripts sueltos de sesiones anteriores
+/_*.js
+/check-*.js
+/fix-*.js
+/inspect-*.js
+/remove-red-*.js
+/sample-*.js
+
+node_modules/
+.vercel/
