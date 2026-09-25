@@ -1254,6 +1254,8 @@ svg .lleno { fill: currentColor; stroke: none; }
   transition: all .2s var(--ease);
 }
 .contact-list .contact-mini:hover { background: #25D366; color: #062b14; }
+.contact-list .contact-mini--tel { border-color: var(--hot); color: var(--hot-glow); }
+.contact-list .contact-mini--tel:hover { background: var(--hot); color: var(--ink); }
 
 .contact-card {
   position: relative;
