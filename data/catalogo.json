@@ -21,6 +21,13 @@
               "img": "catalogo/Lu01 Lubricante caliente sachet sen sabores.png"
             },
             {
+              "code": "Lu57",
+              "nombre": "Lubricante Caliente Sachet Flavor Sex",
+              "precio": 6000,
+              "img": "catalogo/Lu57 Lubricante caliente sachet flavor sex.png",
+              "nuevo": true
+            },
+            {
               "code": "Lu02",
               "nombre": "Lubricante Frío Elixir 15 ml",
               "precio": 20000,
@@ -87,6 +94,13 @@
               "img": "catalogo/Lu41 lubricantes elixir saborizados.png"
             },
             {
+              "code": "Lu62",
+              "nombre": "Lubricantes Elixir Saborizados 15 ml",
+              "precio": 20000,
+              "img": "catalogo/Lu62 Lubricantes elixir saborizados 15ml.png",
+              "nuevo": true
+            },
+            {
               "code": "Lu18",
               "nombre": "Lubricante Frío/Caliente con Potencializador + Dados Amor",
               "precio": 15000,
@@ -111,17 +125,17 @@
               "img": "catalogo/Lu56 Lubricante 5 funciones 30ml (1).png"
             },
             {
-              "code": "Lu57",
+              "code": "SEN1",
               "nombre": "Lubricante Híbrido SEN 30 ml",
               "precio": 35000,
-              "img": "catalogo/Lu57-lubricante-hibrido-sen-30ml.png",
+              "img": "catalogo/SEN1-lubricante-hibrido-sen-30ml.png",
               "nuevo": true
             },
             {
-              "code": "Lu58",
+              "code": "SEN2",
               "nombre": "Lubricante Anal Desensibilizante SEN Sachet 7 ml",
               "precio": 15000,
-              "img": "catalogo/Lu58-lubricante-anal-sen-sachet-7ml.png",
+              "img": "catalogo/SEN2-lubricante-anal-sen-sachet-7ml.png",
               "nuevo": true
             },
             {
@@ -365,11 +379,12 @@
               "genero": "unisex"
             },
             {
-              "code": "N01",
-              "nombre": "Gomitas Vi King x2 Borojó y Chontaduro",
+              "code": "P47",
+              "nombre": "Gomitas Potenciadoras Vi King x2 Borojó y Chontaduro",
               "precio": 8000,
-              "img": "catalogo/N01 Concha Gummies Vi King.png",
-              "genero": "unisex"
+              "img": "catalogo/P47 Gomas potenciadoras gummies vi king.png",
+              "genero": "unisex",
+              "nuevo": true
             }
           ]
         }
@@ -437,10 +452,17 @@
               "img": "catalogo/R21 stud delay 15ml.png"
             },
             {
-              "code": "R25",
+              "code": "SEN3",
               "nombre": "Retardante Ejaculation Delay SEN Sachet 7 ml",
               "precio": 10000,
-              "img": "catalogo/R25-retardante-sen-sachet-7ml.png",
+              "img": "catalogo/SEN3-retardante-sen-sachet-7ml.png",
+              "nuevo": true
+            },
+            {
+              "code": "R25",
+              "nombre": "Retardante Piedra de Jamaica",
+              "precio": 28000,
+              "img": "catalogo/R25 Piedra de jamaica.png",
               "nuevo": true
             }
           ]
@@ -815,10 +837,12 @@
           "info": "nuevos",
           "productos": [
             {
-              "code": "N01",
-              "nombre": "Gomitas Vi King x2 Borojó y Chontaduro",
+              "code": "P47",
+              "nombre": "Gomitas Potenciadoras Vi King x2 Borojó y Chontaduro",
               "precio": 8000,
-              "img": "catalogo/N01 Concha Gummies Vi King.png"
+              "img": "catalogo/P47 Gomas potenciadoras gummies vi king.png",
+              "genero": "unisex",
+              "nuevo": true
             },
             {
               "code": "N02",
@@ -1066,15 +1090,36 @@
     "N06": [
       "Fresa"
     ],
-    "N01": [
-      "Borojó y chontaduro"
-    ],
     "Ot09": [
       "Uva",
       "Chocolate",
       "Manzana",
       "Frutos rojos",
       "Cereza"
+    ],
+    "P47": [
+      "Borojó y chontaduro"
+    ],
+    "Lu57": [
+      "Ron",
+      "Tropical",
+      "Uva",
+      "Kiwi",
+      "Mojito",
+      "Chocolate",
+      "Coco",
+      "Piña colada",
+      "Cereza"
+    ],
+    "Lu62": [
+      "Choco avellana",
+      "Chicle",
+      "Fresa bombón",
+      "Crema de whisky",
+      "Frutos salvajes",
+      "Mora azul (frío-calor)",
+      "Sandía (frío-calor)",
+      "Manzana verde (frío-calor)"
     ]
   }
 }
